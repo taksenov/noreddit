@@ -1,0 +1,99 @@
+<!doctype html>
+<html ng-app="ngGirlsFit">
+
+    <head lang="ru-RU">
+        <meta charset="UTF-8">
+        <title>ngGirlsFit. Фитнес-помошник для женщин</title>
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Favicon -->
+        <link href="../img/favicon.png" rel="shortcut icon">
+
+        <link rel="stylesheet" href="css/style.min.css">
+        <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
+    </head>
+
+    <body>
+
+        <!-- открытая часть сайта -->
+        <section ng-show="publicPart" ng-class="{'gf-contacts-bg-image':(curPath == 'contacts'),
+                            'index-bg-image':(curPath == 'main'),
+                            'gf-about-bg-image':(curPath == 'about'),
+                            'gf-404-bg-image':(curPath == 'error')
+                            }">
+            <div class="container">
+
+                <!-- навигация -->
+                <!--<ng-include src="'app/components/navbar-public/navbar-public.html'"></ng-include>-->
+                <div ui-view="navbarPublick">
+                </div>
+                <!-- навигация -->
+
+                <!-- контент -->
+                <div ui-view="mainContent">
+                </div>
+                <!-- контент -->
+
+            </div>
+        </section>
+        <!-- открытая часть сайта -->
+
+        <!-- закрытая часть сайта -->
+        <div ng-hide="publicPart">
+
+
+            <!-- секция с картинкой бекгроунда для упражнений -->
+            <section ng-show="publicPartWorkout" class="gf-upper-img hidden-xs">
+            </section>
+            <!-- секция с картинкой бекгроунда для упражнений -->
+
+            <!-- навигация -->
+            <div ng-hide="publicPartWorkout">
+                <ng-include src="'app/components/navbar-private/navbar-private.html'"></ng-include>
+            </div>
+            <div ng-show="publicPartWorkout">
+                <ng-include src="'app/components/navbar-private/navbar-workout-private.html'"></ng-include>
+            </div>
+            <!-- навигация -->
+
+            <!-- контент -->
+            <div class="container" ui-view>
+            </div>
+            <!-- контент -->
+
+        </div>
+        <!-- закрытая часть сайта -->
+
+        <!-- точка входа для ангуляра -->
+
+        <!-- Others JS Files -->
+        <script src="libs/jquery/jquery.js"></script>
+        <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.3/moment.min.js"></script>-->
+        <script src="libs/bootstrap/js/bootstrap.js"></script>
+        <!--<script src="libs/jasny-bootstrap/js/jasny-bootstrap.js"></script>-->
+        <!--<script src="libs/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>-->
+        <!--<script src="libs/bootstrap-datepicker/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>-->
+        <script src="libs/arrive/arrive.min.js"></script>
+        <script src="libs/bootstrap-material-design/js/material.js"></script>
+        <script src="libs/bootstrap-material-design/js/ripples.js"></script>
+        <script src="js/material/material-init.js"></script>
+        <!-- AngularJs vDependencies -->
+        <script src="libs/angular/angular.js"></script>
+        <script src="libs/angular/firebase.js"></script>
+        <script src="libs/angular/angularfire.js"></script>
+        <script src="libs/angular-ui-router/angular-ui-router.js"></script>
+        <script src="libs/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="libs/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+        <script src="libs/Chart.js/Chart.js"></script>
+        <script src="libs/angular-chart.js/angular-chart.js"></script>
+        <!--<script src="libs/angular-bootstrap-datetimepicker/js/datetimepicker.js"></script>-->
+        <script src="libs/a0-angular-storage/angular-storage.js"></script>
+        <!-- Our JS App Fies -->
+        <script src="app/app.js"></script>
+        <!-- Other helpers JS -->
+        <!--<script src="js/date-picker/date-picker.js"></script>-->
+        <!--<script src="js/tooltip/tooltip.js"></script>-->
+
+    </body>
+
+</html>

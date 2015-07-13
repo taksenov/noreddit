@@ -8,11 +8,6 @@
 
     $.material.init();
 
-    angular.element('#inputDateOfBirth').datepicker({               // todo эта скотина не работает! отключить т.к. есть ui-bootstrap
-        language: "ru",                                             // todo эта скотина не работает! отключить т.к. есть ui-bootstrap
-    autoclose: true                                                 // todo эта скотина не работает! отключить т.к. есть ui-bootstrap
-    });                                                             // todo эта скотина не работает! отключить т.к. есть ui-bootstrap
-
     // модуль и конфигурирование
     angular
         .module('ngGirlsFit', [
