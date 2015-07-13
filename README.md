@@ -2,11 +2,11 @@
 
 # Install
 ```sh
-$ git clone https://github.com/taksenov/angularjs-nggirlsfit.git && cd angularjs-nggirlsfit
+$ git clone https://github.com/taksenov/noreddit.git && cd noreddit
 $ bower install
 $ npm install
 $ gulp
 ```
-# Сайт на firebaseApp
+# Сайт на хостинге firebaseApp
 https://nggirlsfit.firebaseapp.com/#/
 

@@ -6,8 +6,8 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.auth-modal', [
-            'ngGirlsFit.main',
+        .module('ngNoReddit.auth-modal', [
+            'ngNoReddit.main',
             'ui.bootstrap'
         ]);
 

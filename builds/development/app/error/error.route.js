@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.error404')
+        .module('ngNoReddit.error404')
         .config(route);
 
     route.$inject = ['$stateProvider'];

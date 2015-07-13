@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.firebase.service', ['firebase'])
+        .module('ngNoReddit.firebase.service', ['firebase'])
         .service('ngfitfire', ngfitfire);
 
     ngfitfire.$inject = [ 'FIREBASE_URL', '$firebaseObject',
@@ -44,7 +44,7 @@
             $log.debug( 'Картинка в новом упражнении =', _exercise.img        );
             if ( typeof( _exercise.img ) === 'undefined' ||
                  _exercise.img  === '' ) {
-                _exercise.img = '../img/nggirlsfit-exercises-001.jpg'
+                _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
             }
 
             exercisesRef.push( _exercise );
@@ -64,7 +64,7 @@
             // проверка картинки, если из вне прийдет undefined или '' то меняется на дефолтную картинку
             if ( typeof( _exercise.img ) === 'undefined' ||
                  _exercise.img  === '' ) {
-                _exercise.img = '../img/nggirlsfit-exercises-001.jpg'
+                _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
             }
 
             exercisesRef.child( _exerciseId ).update( _exercise, onComplete );

@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.error404', ['ui.router']);
+        .module('ngNoReddit.error404', ['ui.router']);
 
 })();
 

@@ -6,9 +6,10 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.main')
+        .module('ngNoReddit.main')
         .controller('MainCtrl', mainCtrl)
         .controller('OpenModalSingInCtrl', openModalSingInCtrl)
+        .controller('FormPostAdd', formPostAdd)
     ;
 
     mainCtrl.$inject = [ '$scope', '$rootScope',
@@ -17,6 +18,36 @@
     openModalSingInCtrl.$inject = [ '$scope', '$rootScope',
                                     'ngfitfire', '$modal',
                                     'AuthfireFactory', 'FIREBASE_URL' ];
+    formPostAdd.$inject = [ '$scope', '$rootScope',
+                                    'ngfitfire', '$modal',
+                                    'AuthfireFactory', 'FIREBASE_URL',
+                                    '$log' ];
+
+    function formPostAdd( $scope, $rootScope,
+                           ngfitfire, $modal,
+                           AuthfireFactory, FIREBASE_URL,
+                           $log ) {
+        var vm = this;
+
+        vm.addNewPost = true;
+
+        //$rootScope.curPath = 'main';
+        //$rootScope.publicPart = true;
+        //$rootScope.publicPartWorkout = false;
+
+        //$scope.addNewPost = true;
+        vm.addNewPostFunc = function () {
+            $log.debug('Открыта форма добавления нового поста');
+            vm.addNewPost = false;
+        };
+
+        vm.cancelPostFunc = function () {
+            $log.debug('Закрыта форма добавления нового поста');
+            vm.addNewPost = true;
+        };
+
+    } // ~~~ formPostAdd ~~~
+
 
     function mainCtrl( $scope, $rootScope,
                        ngfitfire, $modal,
@@ -30,21 +61,7 @@
 
         vm.animationsEnabled = true;
 
-        vm.openModalSingUp = function (  ) {
-            vm.modalCaption = 'Регистрация';
-            $modal.open(
-                {
-                    animation: vm.animationsEnabled,
-                    templateUrl: '/app/components/auth-modal/sign-up-modal.html',
-                    controller: 'ModalSingUpCtrl',
-                    resolve: {
-                        modalCaption: function () {
-                            return vm.modalCaption;
-                        }
-                    }
-                }
-            ); // ~~~ $modal.open ~~~
-        }; // ~~~ openModalSingUp ~~~
+
 
     } // ~~~ mainCtrl ~~~
 
@@ -72,6 +89,24 @@
                 }
             ); // ~~~ $modal.open ~~~
         }; // ~~~ openModalSingIn ~~~
+
+        vm.openModalSingUp = function ( e ) {
+            e.preventDefault();
+            vm.modalCaption = 'Регистрация';
+            $modal.open(
+                {
+                    animation: vm.animationsEnabled,
+                    templateUrl: '/app/components/auth-modal/sign-up-modal.html',
+                    controller: 'ModalSingUpCtrl',
+                    resolve: {
+                        modalCaption: function () {
+                            return vm.modalCaption;
+                        }
+                    }
+                }
+            ); // ~~~ $modal.open ~~~
+        }; // ~~~ openModalSingUp ~~~
+
 
         vm.logout = function (  ) {
             AuthfireFactory.logout();

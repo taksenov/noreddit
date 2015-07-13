@@ -10,26 +10,19 @@
 
     // модуль и конфигурирование
     angular
-        .module('ngGirlsFit', [
+        .module('ngNoReddit', [
             'firebase',
-            'ngGirlsFit.main',
-            'ngGirlsFit.about',
-            'ngGirlsFit.contacts',
-            'ngGirlsFit.profile',
-            'ngGirlsFit.workout',
-            'ngGirlsFit.exercises',
-            'ngGirlsFit.statistics',
-            'ngGirlsFit.error404',
-            'ngGirlsFit.charts',
-            'ngGirlsFit.firebase.service',
-            'ngGirlsFit.auth-modal',
+            'ngNoReddit.main',
+            //'ngNoReddit.profile',
+            'ngNoReddit.error404',
+            'ngNoReddit.firebase.service',
+            'ngNoReddit.auth-modal',
             'authfire.factory',
             'ui.router',
-            'chart.js',
             'ui.bootstrap',
             'angular-storage'
         ])
-        .constant('FIREBASE_URL', 'https://nggirlsfit.firebaseio.com/')
+        .constant('FIREBASE_URL', 'https://ngnoreddit.firebaseio.com/')
         .config(ngGFConfig)
         .run(run);
 
@@ -47,9 +40,6 @@
             $injector.invoke(['$state', function ($state) { $state.go('error'); }]);
             return true;
         }); // ~~~ $urlRouterProvider ~~~
-            // это сдернуто из интернета для страницы 404,
-            // ~~~ https://www.snip2code.com/Snippet/151390/Show-Not-Found-(404)-page-without-changi
-            // todo разобраться что такое invoke
 
         $urlRouterProvider
             .when('', '/')

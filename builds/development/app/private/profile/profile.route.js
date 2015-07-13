@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.profile')
+        .module('ngNoReddit.profile')
         .config(route);
 
     route.$inject = [ '$stateProvider', '$urlRouterProvider' ];

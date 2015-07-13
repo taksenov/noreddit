@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.profile')
+        .module('ngNoReddit.profile')
         .controller('ProfileCtrl', profileCtrl)
         .controller('ProfileAccountCtrl', profileAccountCtrl)
         .controller('ProfilePasswordCtrl', profilePasswordCtrl)

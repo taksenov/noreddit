@@ -8,18 +8,17 @@
     angular
         .module( 'authfire.factory', [ 'firebase' ] )
         .factory( 'AuthfireFactory', authfireFactory )
-        .constant( 'pathToRedirect', 'profile' )                // настройка редиректа, по какому пути переходить после авторизации
     ;
 
     authfireFactory.$inject = [ '$firebaseAuth', '$rootScope',
                          'FIREBASE_URL', '$log',
                          '$firebaseObject', 'store',
-                         '$location', 'pathToRedirect' ];
+                         '$location' ];
 
     function authfireFactory( $firebaseAuth, $rootScope,
                        FIREBASE_URL, $log,
                        $firebaseObject, store,
-                       $location, pathToRedirect ) {
+                       $location ) {
 
         var ref = new Firebase( FIREBASE_URL );
         var auth = $firebaseAuth( ref );
@@ -108,9 +107,6 @@
                                email: _user.email,
                                password: _user.password
                             }).then( function () {
-                                // редирект в профиль пользователя
-                                $log.debug('Редирект в профиль пользователя. Регистрация нового');
-                                $location.path(pathToRedirect).replace();
                                 // закрыть модальное окно
                                 $rootScope.modalInstance.close();
                                 $rootScope.modalInstance = null;
@@ -201,8 +197,6 @@
             // закрыть модальное окно
             $rootScope.modalInstance.close();
             $rootScope.modalInstance = null;
-            // редирект в профиль пользователя
-            $location.path(pathToRedirect).replace();
         } // ~~~ authHandle ~~~
 
         function twitterSocialAuthHandle ( error, authData ) {
@@ -230,10 +224,6 @@
                         });
                     }
                 });
-
-                // редирект в профиль пользователя
-                $log.debug('Редирект в профиль пользователя');
-                $location.path(pathToRedirect).replace();
 
             }
         } // ~~~ twitterSocialAuthHandle ~~~
@@ -264,10 +254,6 @@
                     }
                 });
 
-                // редирект в профиль пользователя
-                $log.debug('Редирект в профиль пользователя');
-                $location.path(pathToRedirect).replace();
-
             }
         } // ~~~ facebookSocialAuthHandle ~~~
 
@@ -296,10 +282,6 @@
                         });
                     }
                 });
-
-                // редирект в профиль пользователя
-                $log.debug('Редирект в профиль пользователя');
-                $location.path(pathToRedirect).replace();
 
             }
         } // ~~~ googleSocialAuthHandle ~~~

@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.main')
+        .module('ngNoReddit.main')
         .config(route);
 
     route.$inject = ['$stateProvider'];
@@ -19,6 +19,11 @@
                     'navbarPublick' : {
                         templateUrl: 'app/components/navbar-public/navbar-public.html',
                         controller: 'OpenModalSingInCtrl',
+                        controllerAs: 'vm'
+                    },
+                    'formPostAdd' : {
+                        templateUrl: 'app/components/post-form/post-form.html',
+                        controller: 'FormPostAdd',
                         controllerAs: 'vm'
                     },
                     'mainContent' : {

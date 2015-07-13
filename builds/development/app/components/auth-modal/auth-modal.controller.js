@@ -6,7 +6,7 @@
     'use strict';
 
     angular
-        .module('ngGirlsFit.auth-modal')
+        .module('ngNoReddit.auth-modal')
         .controller('ModalSingInCtrl', modalSingInCtrl)
         .controller('ModalSingUpCtrl', modalSingUpCtrl)
     ;
