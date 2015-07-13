@@ -1,0 +1,147 @@
+            <!--  -->
+            <div class="row">
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+                    <div class="gf-left-navigation__border">
+                        <div class="gf-left-navigation__image">
+                            <img class="img-responsive" src="../img/nggirlsfit-about-article-003.jpg" alt="ProfileBackground"/>
+                        </div>
+
+                        <div class="gf-left-navigation">
+                            <div class="gf-left-navigation__username">
+                                {{ currentUser.name }}
+                            </div>
+                            <div class="gf-left-navigation__achivments center-block text-center">
+                                <div class="gf-left-navigation__achivments_center">
+                                    <ul class="list-unstyled gf-left-navigation__list">
+                                        <li>
+                                            <i class="mdi-action-favorite mdi-material-pink gf-left-navigation__achivments_icons" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Мастер бега II степени"></i>
+                                        </li>
+                                        <li>
+                                            <i class="mdi-social-school mdi-material-lime gf-left-navigation__achivments_icons" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Магистр фитнеса. Получено 2 награды"></i>
+                                        </li>
+                                        <li>
+                                            <i class="mdi-social-mood mdi-material-teal gf-left-navigation__achivments_icons" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Радостные дни. Вы занимаетесь с нами уже 125 дней"></i>
+                                        </li>
+                                        <li>
+                                            <i class="mdi-social-whatshot mdi-material-red gf-left-navigation__achivments_icons" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Сжигатель жира. Вы похудели на 5.9 кг"></i>
+                                        </li>
+                                        <li>
+                                            <i class="mdi-maps-flight mdi-material-amber-700 gf-left-navigation__achivments_icons" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Самолет не нужен. пробегите 1000 км. Получено 7 наград"></i>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <!-- userpic -->
+                            <div class="gf-left-navigation__userpic">
+                                <img ng-src="{{ currentUser.avatar }}" src="" alt="Userpic"/>
+                            </div>
+                            <!-- userpic -->
+
+                        </div>
+                    </div>
+
+                    <div class="gf-left-navigation__buttons">
+                        <div class="btn-group-vertical center-block">
+                            <a ng-click="vm.logout()" href="#/" class="btn btn-flat btn-default">Выход</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-8 col-ld-8 center-block">
+
+                    <div class="row gf-exercises__filter-btns">
+
+                        <!-- отображение на больших экранах -->
+                        <div class="col-md-6 col-lg-6 hidden-xs hidden-sm">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Фильтр..."
+                                       ng-model="exerciseFilter.name"
+                                        >
+
+                                <span ng-hide="exerciseFilter.name" class="input-group-btn">
+                                    <button class="btn btn-primary" type="button"
+                                            ng-click="exerciseFilter.name = ''"
+                                            >Фильтр
+                                    </button>
+                                </span>
+
+                                <span ng-show="exerciseFilter.name" class="input-group-btn">
+                                    <button class="btn btn-primary" type="button"
+                                            ng-click="exerciseFilter.name = ''">
+                                                <i class="mdi-navigation-close"></i>
+                                    </button>
+                                </span>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-lg-6 hidden-xs hidden-sm text-right">
+
+                            <!-- строки -->
+                            <a ui-sref=".strings" ui-sref-active="btn-primary" href="" class="btn btn-default gf-exercises__view-btn">
+                                <i class="mdi-action-view-list"></i>
+                            </a>
+
+                            <!-- блоки -->
+                            <a ui-sref=".blocks" ui-sref-active="btn-primary" href="" class="btn btn-default gf-exercises__view-btn">
+                                <i class="mdi-navigation-apps"></i>
+                            </a>
+
+                        </div>
+                        <!-- отображение на больших экранах -->
+
+                        <!-- отображение на телефонах -->
+                        <div class="col-xs-12 col-sm-12 hidden-md hidden-lg gf-exercises__filter-xs">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Фильтр..."
+                                    ng-model="exerciseFilter.name"
+                                     >
+
+                                <span ng-hide="exerciseFilter.name" class="input-group-btn">
+                                    <button class="btn btn-primary" type="button"
+                                            ng-click="exerciseFilter.name = ''"
+                                            >Фильтр
+                                    </button>
+                                </span>
+
+                                <span ng-show="exerciseFilter.name" class="input-group-btn">
+                                    <button class="btn btn-primary" type="button"
+                                            ng-click="exerciseFilter.name = ''">
+                                                <i class="mdi-navigation-close"></i>
+                                    </button>
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-12 hidden-md hidden-lg text-center gf-exercises__filter-btns-xs">
+
+                            <!-- строки -->
+                            <a ui-sref=".strings" ui-sref-active="btn-primary" href="" class="btn btn-default gf-exercises__view-btn">
+                                <i class="mdi-action-view-list"></i>
+                            </a>
+
+                            <!-- блоки -->
+                            <a ui-sref=".blocks" ui-sref-active="btn-primary" href="" class="btn btn-default gf-exercises__view-btn">
+                                <i class="mdi-navigation-apps"></i>
+                            </a>
+
+                        </div>
+                        <!-- отображение на телефонах -->
+
+                    </div>
+
+                    <div class="row" ui-view>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <!--  -->
+

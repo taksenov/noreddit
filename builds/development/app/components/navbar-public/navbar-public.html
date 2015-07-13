@@ -1,0 +1,79 @@
+                <!-- логотип и навигация -->
+                <div class="row gf-navbar" ng-class="{'gf-about__marg-bot-50px':(curPath == 'about')}">
+                    <div class="hidden-xs hidden-sm col-md-6 col-lg-6 text-left">
+                        <a ui-sref="main" href="" class="gf-logo__link">
+                            <div class="gf-logo">
+                                <div class="gf-logo__image"></div>
+                                <div class="gf-logo__text">
+                                    ng Girls Fit
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="hidden-xs hidden-sm col-md-6 col-lg-6 text-right gf-navbar__navigation">
+                        <ul class="gf-navbar__mainlist text-right">
+
+                            <li class="gf-navbar__lists" ng-show="isSignedIn()">
+                                <a href="" class="gf-navbar__link" ng-click="vm.logout()">Выход</a>
+                            </li>
+
+                            <li class="gf-navbar__lists" ng-show="isSignedIn()">
+                                <a ui-sref="profile" href="" class="gf-navbar__link">{{ currentUser.name }}</a>
+                            </li>
+
+                            <li class="gf-navbar__lists" ng-hide="isSignedIn()">
+                                <a href="" class="gf-navbar__link" ng-click="vm.openModalSingIn($event)">Войти</a>
+                            </li>
+
+                            <li class="gf-navbar__lists">
+                                <a ui-sref="contacts" href="" class="gf-navbar__link">Контакты</a>
+                            </li>
+
+                            <li class="gf-navbar__lists">
+                                <a ui-sref="about" href="" class="gf-navbar__link">О нас</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 hidden-md hidden-lg text-center">
+                        <div class="gf-navbar__logo-center">
+                            <a ui-sref="main" href="" class="gf-logo__link">
+                                <div class="gf-logo">
+                                    <div class="gf-logo__text-xs">
+                                        <div class="ng-logo__logo-text-xs">
+                                            ng Girls Fit
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 hidden-md hidden-lg text-center gf-navbar__navigation-xs">
+                        <div class="gf-navbar__navmenu-center">
+                            <ul class="gf-navbar__mainlist text-center">
+
+                                <li class="gf-navbar__lists-xs">
+                                    <a ui-sref="about" href="" class="gf-navbar__link">О нас</a>
+                                </li>
+
+                                <li class="gf-navbar__lists-xs">
+                                    <a ui-sref="contacts" href="" class="gf-navbar__link">Контакты</a>
+                                </li>
+
+                                <li class="gf-navbar__lists-xs" ng-hide="isSignedIn()">
+                                    <a href="" class="gf-navbar__link" ng-click="vm.openModalSingIn($event)">Войти</a>
+                                </li>
+
+                                <li class="gf-navbar__lists-xs" ng-show="isSignedIn()">
+                                    <a ui-sref="profile" href="" class="gf-navbar__link">{{ currentUser.name }}</a>
+                                </li>
+
+                                <li class="gf-navbar__lists-xs" ng-show="isSignedIn()">
+                                    <a href="" class="gf-navbar__link" ng-click="vm.logout()">Выход</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- логотип и навигация -->

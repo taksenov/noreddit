@@ -1,0 +1,45 @@
+# 2015.07.13
+# taksenov@gmail.com ( https://github.com/taksenov/ )
+#
+# gitignore for projects using pyCharm
+#
+ 
+#files to ignore
+settings.py
+sitebellib.ini
+
+#extensions to ignore
+*.log
+*.pot
+*.pyc
+ 
+#directories to ignore
+.idea/
+/temp
+/holderjs
+/bower_components
+bower_components
+app/bower_components
+/test-work/app/static/SQLs/
+migrations/
+/node_modules
+
+# ignore at dev-server
+/env
+/logs
+/pids
+/servstatic
+/sphinx
+
+
+
+#production
+/dev
+dev
+
+
+builds/development/libs/**/*
+builds/development/css/style.min.css
+builds/dist/**/*
+builds/dist/
+builds/dist
