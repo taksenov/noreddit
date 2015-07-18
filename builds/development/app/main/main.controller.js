@@ -9,7 +9,8 @@
         .module('ngNoReddit.main')
         .controller('MainCtrl', mainCtrl)
         .controller('OpenModalSingInCtrl', openModalSingInCtrl)
-        .controller('FormPostAdd', formPostAdd)
+        .controller('FormPostAddCtrl', formPostAddCtrl)
+        .controller('AllPostsMainPageCtrl', allPostsMainPageCtrl)
     ;
 
     mainCtrl.$inject = [ '$scope', '$rootScope',
@@ -18,12 +19,29 @@
     openModalSingInCtrl.$inject = [ '$scope', '$rootScope',
                                     'ngfitfire', '$modal',
                                     'AuthfireFactory', 'FIREBASE_URL' ];
-    formPostAdd.$inject = [ '$scope', '$rootScope',
+    formPostAddCtrl.$inject = [ '$scope', '$rootScope',
                                     'ngfitfire', '$modal',
                                     'AuthfireFactory', 'FIREBASE_URL',
                                     '$log' ];
+    allPostsMainPageCtrl.$inject = [ '$scope', '$rootScope',
+                                    'ngfitfire', '$modal',
+                                    'AuthfireFactory', 'FIREBASE_URL',
+                                    '$log', '$firebaseObject', '$firebaseArray' ];
 
-    function formPostAdd( $scope, $rootScope,
+    function allPostsMainPageCtrl( $scope, $rootScope,
+                           ngfitfire, $modal,
+                           AuthfireFactory, FIREBASE_URL,
+                           $log, $firebaseObject, $firebaseArray ) {
+
+        var vm = this;
+
+        ngfitfire.getAllPosts( function (_data) {
+            vm.allPosts = _data;
+        } ); // ~~~ getAllPosts ~~~
+
+    } // ~~~ allPostsMainPageCtrl ~~~
+
+    function formPostAddCtrl( $scope, $rootScope,
                            ngfitfire, $modal,
                            AuthfireFactory, FIREBASE_URL,
                            $log ) {
@@ -60,6 +78,8 @@
         $rootScope.publicPartWorkout = false;
 
         vm.animationsEnabled = true;
+
+
 
 
 

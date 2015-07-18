@@ -23,7 +23,12 @@
                     },
                     'formPostAdd' : {
                         templateUrl: 'app/components/post-form/post-form.html',
-                        controller: 'FormPostAdd',
+                        controller: 'FormPostAddCtrl',
+                        controllerAs: 'vm'
+                    },
+                    'allPostsMainPage' : {
+                        templateUrl: 'app/components/all-posts/all-posts.html',
+                        controller: 'AllPostsMainPageCtrl',
                         controllerAs: 'vm'
                     },
                     'mainContent' : {

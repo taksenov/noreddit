@@ -93,13 +93,13 @@
                     $log.debug( 'User ' + userData.uid + ' created!' );
                     $log.debug( 'User registration data ',  _user );
 
-
                     var userRef = ref.child('users').child(userData.uid);
 
                     userRef.set({
                         name: _user.name,
                         email: _user.email,
-                        id: userData.uid,
+                        id: userData.uid.replace("simplelogin:", ""),
+                        uid: userData.uid,
                         date: Firebase.ServerValue.TIMESTAMP
                     });
 

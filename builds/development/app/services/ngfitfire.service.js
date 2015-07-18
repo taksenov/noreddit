@@ -20,20 +20,14 @@
         var self = this;
 
         var ref = new Firebase( FIREBASE_URL );
-        //var refObj = $firebaseObject( ref );
-        //var refArr = $firebaseArray( ref );
         var usersRef = ref.child('users');
-        //var usersArr = $firebaseArray(usersRef);
-        var exercisesRef = ref.child( 'exercises' );
-        //var exercisesArr = $firebaseArray( exercisesRef );
-        //var exercisesObj = $firebaseObject( exercisesRef );
+        var allPostsRef = ref.child( 'posts' );
 
-        // получение списка упражнений пользователя
-        self.getUserExercises = function(call_back){
-            var exercisesOfUserRef = exercisesRef.orderByChild('ownerid').equalTo( $rootScope.currentUser.id );
-            var exercisesOfUserArr = $firebaseArray( exercisesOfUserRef );
+        // получение списка всех постов
+        self.getAllPosts = function(call_back){
+            var allPostsArr = $firebaseArray( allPostsRef );
 
-            return exercisesOfUserArr.$loaded( call_back );
+            return allPostsArr.$loaded( call_back );
         };
         // ~~~ self.getUserExercises ~~~
 
