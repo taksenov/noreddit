@@ -35,9 +35,30 @@
 
         var vm = this;
 
-        ngfitfire.getAllPosts( function (_data) {
-            vm.allPosts = _data;
-        } ); // ~~~ getAllPosts ~~~
+        //ngfitfire.getAllPosts( function (_data) {
+        //    vm.allPosts = _data;
+        //} ); // ~~~ getAllPosts ~~~
+
+        ngfitfire.getAllPostsAndComments().then(
+            function ( _data ) {
+                vm.allPosts = _data;
+                $log.debug( 'vm.allPosts =', vm.allPosts );
+            }
+
+        ); // ~~~ getAllPostsAndComments ~~~
+
+        //AllPostsAndCommentsFactory.getAllPostsAndComments().then(
+        //    function ( _data ) {
+        //        vm.allPosts = _data;
+        //        $log.debug( 'vm.allPosts =', vm.allPosts );
+        //    }
+        //
+        //);
+
+
+
+
+
 
     } // ~~~ allPostsMainPageCtrl ~~~
 
