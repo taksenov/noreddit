@@ -32,69 +32,41 @@
         };
         // ~~~ self.getUserExercises ~~~
 
+        // выборка всех постов для главной страницы
+        self.getPosts = function () {
+            var def = $q.defer();
+            ref.child('posts').once('value', function( snap ) {
+                var records = {};
 
-        //var allPostsAndComments = {
-
-        self.getAllPostsAndComments = function(){
-
-            // extend function: https://gist.github.com/katowulf/6598238
-            function extend(base) {
-                var parts = Array.prototype.slice.call(arguments, 1);
-                parts.forEach(function (p) {
-                    if (p && typeof (p) === 'object') {
-                        for (var k in p) {
-                            if (p.hasOwnProperty(k)) {
-                                base[k] = p[k];
-                            }
-                        }
-                    }
-                });
-                return base;
-            } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
-
-            //var defer = $q.defer();
-
-            var allPostsArr = $firebaseArray( allPostsRef );
-
-            $log.debug( 'allPostsArr =', allPostsArr );
-
-            return allPostsArr
-                .$loaded()
-                .then(
-                    function ( _data ) {
-                        var posts = {};
-
-                        $log.debug( '_data =', _data );
-
-                        for(var i = 0; i<_data.length; i++) {
-//                            var value = data[i].$value;
-//                            posts[value] = Post.get(value);
-
-                            allPostsRef.child( _data[i].$id ).once( 'value', function( _postsSnap ) {
-                                allCommentsRef.child( _data[i].$id ).once( 'value', function( _commentsSnap ) {
-                                    posts[i] = extend({}, _postsSnap.val(), _commentsSnap.val())
-
-                                    console.log( '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' );
-                                    console.log( posts[i] );
-                                    console.log( '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~' );
-                                });
-                            });
-
-
-                            $log.debug( '_data[i].$id =', _data[i].$id );
-
-                        }
-                        //defer.resolve(posts);
-                    }
-
-
-
+                snap.forEach(
+                    function(childSnap) {
+                        records[ childSnap.key() ] = ( childSnap.val() );
+                    } // function(childSnap)
                 );
+                def.resolve(records);
+            });
+            return def.promise;
+        };
+        // ~~~ self.getPosts
 
-            //$log.debug( 'defer =', defer );
-            //return defer.promise;
-        }; // ~~~ self.getAllPostsAndComments ~~~
+        // выборка всех комментариев для главной страницы
+        self.getComments = function () {
+            var def2 = $q.defer();
+            allCommentsRef.once('value', function (_commentsSnap) {
+                var comments = {};
 
+                _commentsSnap.forEach(
+                    function(childSnap) {
+                        comments[ childSnap.key() ] = ( childSnap.val() );
+                    } // function(childSnap)
+                );
+                def2.resolve(comments);
+
+            });
+
+            return def2.promise;
+        };
+        // ~~~ self.getComments
 
 
 
