@@ -68,21 +68,37 @@
         };
         // ~~~ self.getComments
 
+        // выборка всех аватар для главной страницы
+        self.getAvatars = function () {
+            var def = $q.defer();
+            ref.child('avatars').once('value', function( snap ) {
+                var records = {};
 
-
-        // добавление нового упражнения
-        self.exerciseAdd = function ( _exercise ) {
-            _exercise.ownerid = $rootScope.currentUser.id;
-            _exercise.isWorkout = false;
-            $log.debug( 'Картинка в новом упражнении =', _exercise.img        );
-            if ( typeof( _exercise.img ) === 'undefined' ||
-                 _exercise.img  === '' ) {
-                _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
-            }
-
-            exercisesRef.push( _exercise );
+                snap.forEach(
+                    function(childSnap) {
+                        records[ childSnap.key() ] = ( childSnap.val() );
+                    } // function(childSnap)
+                );
+                def.resolve(records);
+            });
+            return def.promise;
         };
-        // ~~~ self.exerciseAdd ~~~
+        // ~~~ self.getAvatars
+
+
+        // добавление нового поста
+        self.newPostAdd = function ( _newPostData ) {
+            //_exercise.ownerid = $rootScope.currentUser.id;
+            //_exercise.isWorkout = false;
+            //$log.debug( 'Картинка в новом упражнении =', _exercise.img        );
+            //if ( typeof( _exercise.img ) === 'undefined' ||
+            //     _exercise.img  === '' ) {
+            //    _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
+            //}
+
+            allPostsRef.push( _newPostData );
+        };
+        // ~~~ self.newPostAdd ~~~
 
         // редактирование упражнения
         self.exerciseEdit = function ( _exerciseId, _exercise ) {

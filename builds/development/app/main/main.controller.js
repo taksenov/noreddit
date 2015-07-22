@@ -42,9 +42,6 @@
         //
         //} ); // ~~~ getAllPosts ~~~
 
-        var ref = new Firebase( FIREBASE_URL );
-        var allCommentsRef = ref.child( 'comments' );
-
         // extend function: https://gist.github.com/katowulf/6598238
         function extend(base) {
             var parts = Array.prototype.slice.call(arguments, 1);
@@ -60,50 +57,36 @@
             return base;
         } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
 
-        //function getComments() {
-        //
-        //    var def2 = $q.defer();
-        //    allCommentsRef.once('value', function (_commentsSnap) {
-        //        var comments = {};
-        //
-        //        _commentsSnap.forEach(
-        //            function(childSnap) {
-        //                comments[ childSnap.key() ] = ( childSnap.val() );
-        //            } // function(childSnap)
-        //        );
-        //        def2.resolve(comments);
-        //
-        //    });
-        //
-        //    return def2.promise;
-        //
-        //} // function getComments()
-        //
-        //function getPosts() {
-        //    var def = $q.defer();
-        //    ref.child('posts').once('value', function( snap ) {
-        //        var records = {};
-        //
-        //        snap.forEach(
-        //            function(childSnap) {
-        //                records[ childSnap.key() ] = ( childSnap.val() );
-        //            } // function(childSnap)
-        //        );
-        //        def.resolve(records);
-        //    });
-        //    return def.promise;
-        //} //function getPosts()
-
-
         $q.all( [
             ngfitfire.getPosts(),
-            ngfitfire.getComments() ] )
+            ngfitfire.getComments(),
+            ngfitfire.getAvatars() ] )
         .then(
             function (results) {
                 var posts = [];
                 var allPosts = {};
 
+                for ( var i in results[1] ) {
+                    for ( var i1 in results[1][i]  ) {
+
+                        // добаляем аватарку в объект
+                        if (  results[2][ results[1][i][i1]['ownerId'] ] !== undefined  ) {
+                            results[1][i][i1]['avatar'] = results[2][ results[1][i][i1]['ownerId'] ]['avatar'];
+                        } // добаляем аватарку в объект
+
+                        if ( results[1][i][i1] === 'status=true' ) {
+                            delete results[1][i][i1];
+                        }
+                    }
+                }
+
                 for ( var ind in results[0] ) {
+
+                    // добаляем аватарку в объект
+                    if (  results[2][ results[0][ind]['ownerId'] ] !== undefined  ) {
+                        results[0][ind]['avatar'] = results[2][ results[0][ind]['ownerId'] ]['avatar'];
+                    } // добаляем аватарку в объект
+
                     allPosts[ind-1] = {
                         'comments': results[1][ind]
                     };
@@ -112,6 +95,9 @@
 
                 vm.allPosts = posts;
                 $log.debug( 'vm.allPosts =', vm.allPosts );
+                $log.debug( 'results[0] =', results[0] ); //todo здесть проблема решить ее, с присвоением ключей объектам
+                $log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
+
             }
         ); // $q.all
 
@@ -125,20 +111,26 @@
 
         vm.addNewPost = true;
 
-        //$rootScope.curPath = 'main';
-        //$rootScope.publicPart = true;
-        //$rootScope.publicPartWorkout = false;
-
-        //$scope.addNewPost = true;
         vm.addNewPostFunc = function () {
             $log.debug('Открыта форма добавления нового поста');
             vm.addNewPost = false;
-        };
+        }; // vm.addNewPostFunc ~~~ показать форму
 
         vm.cancelPostFunc = function () {
             $log.debug('Закрыта форма добавления нового поста');
             vm.addNewPost = true;
-        };
+        }; // vm.cancelPostFunc ~~~ скрыть форму
+
+        vm.submitNewPost = function () {
+            $log.debug('Добавлен новый пост', vm.newpost);
+            ngfitfire
+                .newPostAdd(
+                    vm.newpost,
+                    function () {
+                        vm.newpost = null;
+                    }
+            );
+        }; // vm.submitNewPost ~~~ добавить новый пост
 
     } // ~~~ formPostAdd ~~~
 

@@ -94,12 +94,18 @@
                     $log.debug( 'User registration data ',  _user );
 
                     var userRef = ref.child('users').child(userData.uid);
+                    var avatarRef = ref.child('avatars').child( userData.uid.replace("simplelogin:", "") );
+
+                    avatarRef.set({
+                        avatar: '../img/nggirlsfit-no-avatar.jpg'
+                    });
 
                     userRef.set({
                         name: _user.name,
                         email: _user.email,
                         id: userData.uid.replace("simplelogin:", ""),
                         uid: userData.uid,
+                        avatar: '../img/nggirlsfit-no-avatar.jpg',
                         date: Firebase.ServerValue.TIMESTAMP
                     });
 
@@ -133,33 +139,42 @@
                 var user;
                 var userPicDefault;
                 var currentUser;
+                var avatarRef;
 
                 if ( authData.google && authData.google.id ) {
-                    userRef = ref.child('users').child( authData.google.id);
+                    userRef = ref.child('users').child( authData.google.id );
+                    avatarRef = ref.child('avatars').child( authData.google.id );
                     user = $firebaseObject(userRef);
                     user.$loaded().then(
                         function () {
                             userPicDefault = user.avatar;
+                            avatarRef.set({
+                                avatar: user.avatar
+                            });
                         }
                     );
                 } else if ( authData.facebook && authData.facebook.id ) {
                     userRef = ref.child('users').child( authData.facebook.id );
-                    user = $firebaseObject(userRef);
-                    user.$loaded().then( function () {
-                        if ( user.avatar ) {
-                            $log.debug( 'Facebook аватарка загружена повтороно' );
-                            userPicDefault = user.avatar;
-                        } else {
-                            $log.debug( 'Facebook аватарка загружена впервые' );
-                            userPicDefault = user.userpic.data.url;
-                        }
-                    });
-                } else if ( authData.twitter && authData.twitter.id ) {
-                    userRef = ref.child('users').child( authData.twitter.id );
+                    avatarRef = ref.child('avatars').child( authData.facebook.id );
                     user = $firebaseObject(userRef);
                     user.$loaded().then(
                         function () {
                             userPicDefault = user.avatar;
+                            avatarRef.set({
+                                avatar: user.avatar
+                            });
+                        }
+                    );
+                } else if ( authData.twitter && authData.twitter.id ) {
+                    userRef = ref.child('users').child( authData.twitter.id );
+                    avatarRef = ref.child('avatars').child( authData.twitter.id );
+                    user = $firebaseObject(userRef);
+                    user.$loaded().then(
+                        function () {
+                            userPicDefault = user.avatar;
+                            avatarRef.set({
+                                avatar: user.avatar
+                            });
                         }
                     );
                 } else {
@@ -243,7 +258,7 @@
                         userRef.set({
                             'email': authData.facebook.email,
                             'name': authData.facebook.displayName,
-                            'userpic': authData.facebook.cachedUserProfile.picture, // https://developers.facebook.com/docs/graph-api/reference/user/
+                            'avatar': authData.facebook.cachedUserProfile.picture.data.url, // https://developers.facebook.com/docs/graph-api/reference/user/
                             'id': authData.facebook.id,
                             'token': authData.token,
                             'uid': authData.uid,

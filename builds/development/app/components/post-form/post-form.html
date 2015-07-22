@@ -40,15 +40,18 @@
 
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="inputPostCaption"
-                               placeholder="Заголовок поста">
+                               placeholder="Заголовок поста"
+                               ng-model="vm.newpost.postCaption" >
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPosttext" class="col-lg-2 control-label">Текст
+                    <label for="inputPosttext"
+                           class="col-lg-2 control-label">Текст
                         поста</label>
 
                     <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="inputPosttext"></textarea>
+                        <textarea class="form-control" rows="3" id="inputPosttext"
+                                ng-model="vm.newpost.postText"></textarea>
                     </div>
                 </div>
 
@@ -57,7 +60,8 @@
                     <div class="col-lg-12">
                         <div class="text-center gf-exercise-string__exercise-btns">
                             <p>
-                                <button class="btn btn-success">
+                                <button class="btn btn-success"
+                                        ng-click="vm.submitNewPost()">
                                     Submit
                                 </button>
                                 <button class="btn btn-danger"

@@ -9,8 +9,11 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-1">
-                            <img class="circle nr-post__userpic-img" src="http://lorempixel.com/56/56/people/1"
-                                         alt="icon">
+                            <img class="nr-post__userpic-img"
+                                 ng-src="{{post.avatar}}"
+                                 src=""
+                                 alt="icon"
+                                 width="60px">
                         </div>
                         <div class="col-lg-11">
                             <div class="text-left gf-exercise-string__exercise-text gf-exercise-caption__word-wrap">
@@ -20,14 +23,15 @@
                                 <p>
                                     {{ post.postText }}
                                 </p>
-                                <span>Автор: {{ post.ownerName }}, 13.07.2015 13:29</span>
+                                <span>Автор: {{ post.ownerName }}, {{ post.dateTime * 1000 | date:'dd.MM.yyyy HH:mm' }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-lg-3">
-                    <div class="text-right gf-exercise-string__exercise-btns">
+                    <div class="text-right gf-exercise-string__exercise-btns"
+                         ng-show="isSignedIn() && post.ownerId === currentUser.id">
                         <p>
                             <button class="btn btn-success nr-btn-manage-group">
                                 <i class="mdi-editor-mode-edit"></i>
@@ -43,16 +47,18 @@
 
             <div class="nr-separator__post"></div>
 
-<!-- ========================[комментарии]============================================================= -->
+            <!-- ========================[комментарии]============================================================= -->
             <div class="row">
 
                 <div class="col-lg-11 col-lg-offset-1">
-                    <div class="list-group" ng-repeat="comment in post.comments">
-                        <div class="list-group-item" >
+                    <div class="list-group" ng-repeat="comment in post.comments" >
+                        <div class="list-group-item">
 
                             <div class="row-picture">
-                                <img class="circle" src="http://lorempixel.com/56/56/people/1"
-                                     alt="icon">
+                                <img ng-src="{{comment.avatar}}"
+                                     src=""
+                                     alt="icon"
+                                     width="60px">
                             </div>
 
                             <div class="row-content">
@@ -62,12 +68,13 @@
                                             {{ comment.commentText }}
                                         </h4>
                                         <p class="list-group-item-text">
-                                            {{ comment.ownerName }}: прокомментировал, 13.07.2015 13:29
+                                            {{ comment.ownerName }}: прокомментировал, {{ comment.dateTime * 1000 | date:'dd.MM.yyyy HH:mm' }}
                                         </p>
                                     </div>
 
                                     <div class="col-lg-3">
-                                        <div class="text-right gf-exercise-string__exercise-btns">
+                                        <div class="text-right gf-exercise-string__exercise-btns"
+                                             ng-show="isSignedIn() && comment.ownerId === currentUser.id">
                                             <p>
                                                 <button class="btn btn-success nr-btn-manage-group">
                                                     <i class="mdi-editor-mode-edit"></i>
@@ -91,7 +98,7 @@
 
 
             </div>
-<!-- ========================[комментарии]============================================================= -->
+            <!-- ========================[комментарии]============================================================= -->
 
 
 
