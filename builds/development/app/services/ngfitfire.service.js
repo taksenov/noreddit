@@ -24,6 +24,21 @@
         var allPostsRef = ref.child( 'posts' );
         var allCommentsRef = ref.child( 'comments' );
 
+        // extend function: https://gist.github.com/katowulf/6598238
+        function extend(base) {
+            var parts = Array.prototype.slice.call(arguments, 1);
+            parts.forEach(function (p) {
+                if (p && typeof (p) === 'object') {
+                    for (var k in p) {
+                        if (p.hasOwnProperty(k)) {
+                            base[k] = p[k];
+                        }
+                    }
+                }
+            });
+            return base;
+        } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
+
         // получение списка всех постов
         self.getAllPosts = function(call_back){
             var allPostsArr = $firebaseArray( allPostsRef );
@@ -37,10 +52,11 @@
             var def = $q.defer();
             ref.child('posts').once('value', function( snap ) {
                 var records = {};
+                var i = 1; //внимание!
 
                 snap.forEach(
                     function(childSnap) {
-                        records[ childSnap.key() ] = ( childSnap.val() );
+                        records[ i++ ] = extend({}, childSnap.val(), { 'postID': childSnap.key() } );
                     } // function(childSnap)
                 );
                 def.resolve(records);
@@ -54,10 +70,13 @@
             var def2 = $q.defer();
             allCommentsRef.once('value', function (_commentsSnap) {
                 var comments = {};
+                var i = 1; //внимание!
 
                 _commentsSnap.forEach(
                     function(childSnap) {
-                        comments[ childSnap.key() ] = ( childSnap.val() );
+                        //comments[ childSnap.key() ] = ( childSnap.val() );
+                        comments[ i++ ] = ( childSnap.val() );
+                        //comments[ i++ ] = extend({}, childSnap.val(), { 'commentID': childSnap.key() } );
                     } // function(childSnap)
                 );
                 def2.resolve(comments);
@@ -85,18 +104,19 @@
         };
         // ~~~ self.getAvatars
 
-
         // добавление нового поста
         self.newPostAdd = function ( _newPostData ) {
-            //_exercise.ownerid = $rootScope.currentUser.id;
-            //_exercise.isWorkout = false;
-            //$log.debug( 'Картинка в новом упражнении =', _exercise.img        );
-            //if ( typeof( _exercise.img ) === 'undefined' ||
-            //     _exercise.img  === '' ) {
-            //    _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
-            //}
+            var newPostRef = allPostsRef.push( _newPostData );
+            var postID = newPostRef.key();
+            var onComplete = function(error) {
+                if (error) {
+                    $log.debug('addNewPost: Synchronization failed');
+                } else {
+                    $log.debug('addNewPost: Synchronization succeeded');
+                }
+            };
 
-            allPostsRef.push( _newPostData );
+            allCommentsRef.child( postID ).set( { status: 'status=true' }, onComplete );
         };
         // ~~~ self.newPostAdd ~~~
 

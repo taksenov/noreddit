@@ -28,6 +28,22 @@
                                     'AuthfireFactory', 'FIREBASE_URL',
                                     '$log', '$firebaseObject', '$firebaseArray', '$q' ];
 
+    // extend function: https://gist.github.com/katowulf/6598238
+    function extend(base) {
+        var parts = Array.prototype.slice.call(arguments, 1);
+        parts.forEach(function (p) {
+            if (p && typeof (p) === 'object') {
+                for (var k in p) {
+                    if (p.hasOwnProperty(k)) {
+                        base[k] = p[k];
+                    }
+                }
+            }
+        });
+        return base;
+    } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
+
+
     function allPostsMainPageCtrl( $scope, $rootScope,
                            ngfitfire, $modal,
                            AuthfireFactory, FIREBASE_URL,
@@ -41,21 +57,6 @@
         //    $log.debug( '42 --- vm.allPosts =', vm.allPosts );
         //
         //} ); // ~~~ getAllPosts ~~~
-
-        // extend function: https://gist.github.com/katowulf/6598238
-        function extend(base) {
-            var parts = Array.prototype.slice.call(arguments, 1);
-            parts.forEach(function (p) {
-                if (p && typeof (p) === 'object') {
-                    for (var k in p) {
-                        if (p.hasOwnProperty(k)) {
-                            base[k] = p[k];
-                        }
-                    }
-                }
-            });
-            return base;
-        } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
 
         $q.all( [
             ngfitfire.getPosts(),
@@ -91,15 +92,46 @@
                         'comments': results[1][ind]
                     };
                     posts[ind-1] = extend({}, results[0][ind], allPosts[ind-1] );
+                    posts[ind-1] = extend({}, posts[ind-1], { 'elementIndex': ind-1 } );
                 }
 
                 vm.allPosts = posts;
+                $rootScope.allPosts = posts;
                 $log.debug( 'vm.allPosts =', vm.allPosts );
-                $log.debug( 'results[0] =', results[0] ); //todo здесть проблема решить ее, с присвоением ключей объектам
-                $log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
+                //$log.debug( 'results[0] =', results[0] );
+                //$log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
 
             }
         ); // $q.all
+
+        vm.postEdit = function ( _element1, _element2 ) {
+            $log.debug( 'Редактировать, выбранный пост имеет индекс =', _element1 );
+            $log.debug( 'Редактировать, postID =', _element2 );
+        }; // ~~~ vm.postEdit ~~~
+
+        vm.postDelete = function (element) {
+            $log.debug( 'удалить, выбранный пост имеет индекс =', element );
+        }; // ~~~ vm.postDelete ~~~
+
+        vm.addNewCommentFunc = function ( _post ) {
+            $log.debug('Открыта форма добавления нового комментария');
+            $scope.addNewCommentSelected = _post;
+        }; // vm.addNewPostFunc ~~~ показать форму
+
+        vm.cancelCommentFunc = function () {
+            $log.debug('Закрыта форма добавления нового комментария');
+            $scope.addNewCommentSelected = false;
+        }; // vm.cancelPostFunc ~~~ скрыть форму
+
+        // условие для того чтобы открывалась форма добавления комментария, только в конкретном посте
+        vm.isSelectedFormAddNewComment = function ( _post ) {
+            return $scope.addNewCommentSelected === _post;
+        }; // ~~~ vm.isSelectedFormAddNewComment ~~~
+
+
+        vm.addNewComment = function () {
+
+        }; // ~~~ vm.addNewComment ~~~
 
     } // ~~~ allPostsMainPageCtrl ~~~
 
@@ -122,6 +154,16 @@
         }; // vm.cancelPostFunc ~~~ скрыть форму
 
         vm.submitNewPost = function () {
+            vm.newpost = extend( {},
+                                 vm.newpost,
+                                 {
+                                    'dateTime': Math.round(new Date().getTime() / 1000),   //10
+                                    'ownerId': $rootScope.currentUser.id,
+                                    'ownerName': $rootScope.currentUser.name
+                                 }
+            );
+
+            $log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
             $log.debug('Добавлен новый пост', vm.newpost);
             ngfitfire
                 .newPostAdd(
@@ -146,10 +188,6 @@
         $rootScope.publicPartWorkout = false;
 
         vm.animationsEnabled = true;
-
-
-
-
 
     } // ~~~ mainCtrl ~~~
 
