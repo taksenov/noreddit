@@ -67,22 +67,28 @@
                 var posts = [];
                 var allPosts = {};
 
+            function isEmpty(obj) {
+                return Object.keys(obj).length === 0;
+            }
+
                 for ( var i in results[1] ) {
                     for ( var i1 in results[1][i]  ) {
-
                         // добаляем аватарку в объект
                         if (  results[2][ results[1][i][i1]['ownerId'] ] !== undefined  ) {
                             results[1][i][i1]['avatar'] = results[2][ results[1][i][i1]['ownerId'] ]['avatar'];
                         } // добаляем аватарку в объект
 
                         if ( results[1][i][i1] === 'status=true' ) {
+                            //results[0][i]['nocomments'] = true;
                             delete results[1][i][i1];
                         }
+
+                        // есть комменты или нет
+                        isEmpty(results[1][i]) ? results[0][i]['nocomments'] = true : results[0][i]['nocomments'] = false;
                     }
-                }
+                } // обработка комментариев
 
                 for ( var ind in results[0] ) {
-
                     // добаляем аватарку в объект
                     if (  results[2][ results[0][ind]['ownerId'] ] !== undefined  ) {
                         results[0][ind]['avatar'] = results[2][ results[0][ind]['ownerId'] ]['avatar'];
@@ -93,7 +99,7 @@
                     };
                     posts[ind-1] = extend({}, results[0][ind], allPosts[ind-1] );
                     posts[ind-1] = extend({}, posts[ind-1], { 'elementIndex': ind-1 } );
-                }
+                } // обработка постов
 
                 vm.allPosts = posts;
                 $rootScope.allPosts = posts;
@@ -118,14 +124,14 @@
             $log.debug('Открыта форма добавления нового комментария');
             $scope.addNewCommentSelected = _post;
             vm.newComment = null;
-        }; // vm.addNewPostFunc ~~~ показать форму
+        }; // vm.addNewCommentFunc ~~~ показать форму
 
         // скрыть форму
         vm.cancelCommentFunc = function () {
             $log.debug('Закрыта форма добавления нового комментария');
             $scope.addNewCommentSelected = false;
             vm.newComment = null;
-        }; // vm.cancelPostFunc ~~~ скрыть форму
+        }; // vm.cancelCommentFunc ~~~ скрыть форму
 
         // условие для того чтобы открывалась форма добавления комментария, только в конкретном посте
         vm.isSelectedFormAddNewComment = function ( _post ) {
@@ -171,14 +177,21 @@
 
         }; // ~~~ vm.addNewComment ~~~
 
-        // проверка на то есть комментарии илои их нет //todo исправть ибо в консоли ад и израиль
-        vm.isCommentsEmpty = function ( _commentsData ) {
-            function isEmpty(obj) {
-                return Object.keys(obj).length === 0;
-            }
-            console.log( isEmpty(_commentsData) );
-            return isEmpty(_commentsData);
-        }; // ~~~ vm.isCommentsEmpty ~~~
+        // показать комменты поста
+        vm.showExistedComments = function ( _post ) {
+            $scope.showCommentsInPost = _post;
+        }; // vm.showExistedComments ~~~ показать комменты поста
+
+        // скрыть комменты поста
+        vm.hideExistedComments = function () {
+            $scope.showCommentsInPost = false;
+        }; // vm.hideExistedComments ~~~ скрыть комменты поста
+
+        // условие для того чтобы открывалась форма добавления комментария, только в конкретном посте
+        vm.isShowExistedComments = function ( _post ) {
+            return $scope.showCommentsInPost === _post;
+        }; // ~~~ vm.isSelectedFormAddNewComment ~~~
+
 
 
     } // ~~~ allPostsMainPageCtrl ~~~
