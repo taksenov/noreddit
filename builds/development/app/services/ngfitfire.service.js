@@ -120,6 +120,30 @@
         };
         // ~~~ self.newPostAdd ~~~
 
+        // добавление нового комментария
+        self.newCommentAdd = function ( _newCommentData, _postID ) {
+            //var newPostRef = allPostsRef.push( _newPostData );
+            //var postID = newPostRef.key();
+            var onComplete = function(error) {
+                if (error) {
+                    $log.debug('addNewComment: Synchronization failed');
+                } else {
+                    $log.debug('addNewComment: Synchronization succeeded');
+                }
+            };
+
+            allCommentsRef.child( _postID ).push( _newCommentData, onComplete );
+
+            $log.debug(
+                'добавляемы данные',
+                _newCommentData,
+                'в пост =',
+                _postID
+            );
+
+        };
+        // ~~~ self.newCommentAdd ~~~
+
         // редактирование упражнения
         self.exerciseEdit = function ( _exerciseId, _exercise ) {
             var onComplete = function(error) {

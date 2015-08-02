@@ -113,14 +113,18 @@
             $log.debug( 'удалить, выбранный пост имеет индекс =', element );
         }; // ~~~ vm.postDelete ~~~
 
+        // показать форму
         vm.addNewCommentFunc = function ( _post ) {
             $log.debug('Открыта форма добавления нового комментария');
             $scope.addNewCommentSelected = _post;
+            vm.newComment = null;
         }; // vm.addNewPostFunc ~~~ показать форму
 
+        // скрыть форму
         vm.cancelCommentFunc = function () {
             $log.debug('Закрыта форма добавления нового комментария');
             $scope.addNewCommentSelected = false;
+            vm.newComment = null;
         }; // vm.cancelPostFunc ~~~ скрыть форму
 
         // условие для того чтобы открывалась форма добавления комментария, только в конкретном посте
@@ -128,10 +132,54 @@
             return $scope.addNewCommentSelected === _post;
         }; // ~~~ vm.isSelectedFormAddNewComment ~~~
 
+        // кнопка submit добавления нового поста
+        vm.addNewComment = function ( _commentText, _postID ) {
+            if ( typeof(_commentText) === 'undefined' ) {
+                $log.debug( 'вы пытаетесь добавить пустой комментарий! это невозможно');
+                return false;
+            } else {
+                $log.debug( 'вы пытаетесь добавть новый комментарий с текстом =', _commentText, 'в пост-айди', _postID );
+                $log.debug(
+                    'инфа о пользователе =',
+                    $rootScope.currentUser.id,
+                    $rootScope.currentUser.name
+                );
 
-        vm.addNewComment = function () {
+                vm.submittedNewComment = {
+                    'commentText': _commentText
+                };
+                vm.submittedNewComment = extend( {},
+                                     vm.submittedNewComment,
+                                     {
+                                        'dateTime': Math.round(new Date().getTime() / 1000),   //10
+                                        'ownerId': $rootScope.currentUser.id,
+                                        'ownerName': $rootScope.currentUser.name
+                                     }
+                );
+
+                ngfitfire
+                    .newCommentAdd(
+                        vm.submittedNewComment,
+                        _postID,
+                        function () {
+                            vm.submittedNewComment = null;
+                        }
+                );
+
+
+            }
 
         }; // ~~~ vm.addNewComment ~~~
+
+        // проверка на то есть комментарии илои их нет //todo исправть ибо в консоли ад и израиль
+        vm.isCommentsEmpty = function ( _commentsData ) {
+            function isEmpty(obj) {
+                return Object.keys(obj).length === 0;
+            }
+            console.log( isEmpty(_commentsData) );
+            return isEmpty(_commentsData);
+        }; // ~~~ vm.isCommentsEmpty ~~~
+
 
     } // ~~~ allPostsMainPageCtrl ~~~
 

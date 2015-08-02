@@ -1,6 +1,6 @@
     <!-- пост со свернутыми комментариями -->
     <!--<div class="col-lg-12" ng-repeat="post in vm.allPosts">-->
-    <div class="col-lg-12" ng-repeat="post in vm.allPosts">
+    <div class="col-lg-12" ng-repeat="post in allPosts | orderBy : post.dateTime : true">
         <!-- $scope.allUsers -->
 
         <div class="panel gf-panel-material-orange-50">
@@ -31,7 +31,7 @@
 
                 <div class="col-lg-3">
                     <div class="text-right gf-exercise-string__exercise-btns"
-                         ng-show="isSignedIn() && post.ownerId === currentUser.id">
+                         ng-if="isSignedIn() && post.ownerId === currentUser.id">
                         <p>
                             <button class="btn btn-success nr-btn-manage-group"
                             ng-click="vm.postEdit( post.elementIndex, post.postID )">
@@ -120,7 +120,10 @@
 
                                         <div class="col-lg-10">
                                             <textarea class="form-control" rows="3"
-                                                      id="inputPostComment"></textarea>
+                                                      id="inputPostComment"
+                                                      ng-model="vm.newComment.text">
+
+                                            </textarea>
                                         </div>
                                     </div>
 
@@ -129,7 +132,8 @@
                                         <div class="col-lg-12">
                                             <div class="text-center gf-exercise-string__exercise-btns">
                                                 <p>
-                                                    <button class="btn btn-success">
+                                                    <button class="btn btn-success"
+                                                            ng-click="vm.addNewComment( vm.newComment.text, post.postID )">
                                                         Submit
                                                     </button>
                                                     <button class="btn btn-danger"
@@ -156,7 +160,9 @@
                 <div class="col-lg-12" ng-if="isSignedIn()">    <!-- показывать, только если пользователь вошел в систему -->
                     <div class="text-center gf-exercise-string__exercise-btns">
                         <p>
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary"
+                                    ng-if="!vm.isCommentsEmpty( post.comments )">
+                                <!-- todo исправть ибо в консоли ад и израиль -->
                                 Развернуть комментарии
                             </button>
 
