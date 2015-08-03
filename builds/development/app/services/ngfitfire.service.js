@@ -65,6 +65,28 @@
         };
         // ~~~ self.getPosts
 
+        // выборка поста по ID
+        self.getPostFromID = function ( _postID ) {
+            var def = $q.defer();
+            ref.child('posts').child( _postID ).once('value', function( snap ) {
+                var records = {};
+                records = extend({}, snap.val(), { 'postID': _postID } );
+                def.resolve( records );
+            });
+            return def.promise;
+        };
+        // ~~~ self.getPosts
+
+        // выборка комментариев по ID поста
+        self.getCommentsFromID = function ( _postID ) {
+            var def = $q.defer();
+            ref.child('comments').child( _postID ).once('value', function( snap ) {
+                def.resolve( snap.val() );
+            });
+            return def.promise;
+        };
+        // ~~~ self.getPosts
+
         // выборка всех комментариев для главной страницы
         self.getComments = function () {
             var def2 = $q.defer();
@@ -74,9 +96,7 @@
 
                 _commentsSnap.forEach(
                     function(childSnap) {
-                        //comments[ childSnap.key() ] = ( childSnap.val() );
                         comments[ i++ ] = ( childSnap.val() );
-                        //comments[ i++ ] = extend({}, childSnap.val(), { 'commentID': childSnap.key() } );
                     } // function(childSnap)
                 );
                 def2.resolve(comments);
@@ -105,7 +125,7 @@
         // ~~~ self.getAvatars
 
         // добавление нового поста
-        self.newPostAdd = function ( _newPostData ) {
+        self.newPostAdd = function ( _newPostData, _ifAllSuccess ) {
             var newPostRef = allPostsRef.push( _newPostData );
             var postID = newPostRef.key();
             var onComplete = function(error) {
@@ -113,8 +133,25 @@
                     $log.debug('addNewPost: Synchronization failed');
                 } else {
                     $log.debug('addNewPost: Synchronization succeeded');
+
+                    $q.all( [
+                            self.getPostFromID( postID ),
+                            self.getCommentsFromID( postID ),
+                            self.getAvatars() ] )
+                    .then(
+                        function ( _results ) {
+                            $rootScope.allPosts2 = self.processingNewPostDataOfQALL( _results );
+                            $rootScope.allPosts[$rootScope.allPosts.length] = $rootScope.allPosts2;
+
+                            $log.debug( 'данные нового добавленного поста $rootScope.allPosts =', $rootScope.allPosts );
+                            $log.debug( 'данные нового добавленного поста $rootScope.allPosts2 =', $rootScope.allPosts2 );
+                            $log.debug( 'данные нового добавленного поста _results =', _results );
+                            _ifAllSuccess();
+                        }
+                    );
+
                 }
-            };
+            }; // ~~~ onComplete ~~~
 
             allCommentsRef.child( postID ).set( { status: 'status=true' }, onComplete );
         };
@@ -122,8 +159,6 @@
 
         // добавление нового комментария
         self.newCommentAdd = function ( _newCommentData, _postID ) {
-            //var newPostRef = allPostsRef.push( _newPostData );
-            //var postID = newPostRef.key();
             var onComplete = function(error) {
                 if (error) {
                     $log.debug('addNewComment: Synchronization failed');
@@ -143,6 +178,79 @@
 
         };
         // ~~~ self.newCommentAdd ~~~
+
+        // обработка данных всех постов в запросе $q.all
+        self.processingMainDataOfQALL = function ( results ) {
+            var posts = [];
+            var allPosts = {};
+
+            function isEmpty(obj) {
+                return Object.keys(obj).length === 0;
+            }
+
+            for ( var i in results[1] ) {
+                for ( var i1 in results[1][i]  ) {
+                    // добаляем аватарку в объект
+                    if (  results[2][ results[1][i][i1]['ownerId'] ] !== undefined  ) {
+                        results[1][i][i1]['avatar'] = results[2][ results[1][i][i1]['ownerId'] ]['avatar'];
+                    } // добаляем аватарку в объект
+
+                    if ( results[1][i][i1] === 'status=true' ) {
+                        delete results[1][i][i1];
+                    }
+
+                    // есть комменты или нет
+                    isEmpty(results[1][i]) ? results[0][i]['nocomments'] = true : results[0][i]['nocomments'] = false;
+                }
+            } // обработка комментариев
+
+            for ( var ind in results[0] ) {
+                // добаляем аватарку в объект
+                if (  results[2][ results[0][ind]['ownerId'] ] !== undefined  ) {
+                    results[0][ind]['avatar'] = results[2][ results[0][ind]['ownerId'] ]['avatar'];
+                } // добаляем аватарку в объект
+
+                allPosts[ind-1] = {
+                    'comments': results[1][ind]
+                };
+                posts[ind-1] = extend({}, results[0][ind], allPosts[ind-1] );
+                posts[ind-1] = extend({}, posts[ind-1], { 'elementIndex': ind-1 } );
+            } // обработка постов
+
+            return posts;
+        };
+        // ~~~ self.processingMainDataOfQALL ~~~
+
+        // обработка данных нового добавленного поста в запросе $q.all
+        self.processingNewPostDataOfQALL = function ( results ) {
+            var posts = [];
+            var allPosts = {};
+
+            results[0]['nocomments'] = true;
+
+            for ( var i in results[1] ) {
+                for ( var i1 in results[1][i]  ) {
+                    if ( results[1][i][i1] === 'status=true' ) {
+                        //results[0][i]['nocomments'] = true;
+                        delete results[1][i][i1];
+                    }
+                }
+            } // обработка комментариев
+
+            // добаляем аватарку в объект
+            if (  results[2][ results[0]['ownerId'] ] !== undefined  ) {
+                results[0]['avatar'] = results[2][ results[0]['ownerId'] ]['avatar'];
+            } // добаляем аватарку в объект
+
+            allPosts = {
+                'comments': {}
+            };
+            posts = extend({}, results[0], allPosts );
+            posts = extend({}, posts, { 'elementIndex': $rootScope.allPosts.length } );
+
+            return posts;
+        };
+        // ~~~ self.processingMainDataOfQALL ~~~
 
         // редактирование упражнения
         self.exerciseEdit = function ( _exerciseId, _exercise ) {
