@@ -142,6 +142,7 @@
                             vm.submittedNewComment = null;
                             $scope.addNewCommentSelected = false;
                             vm.newComment = null;
+                            //vm.isShowExistedComments( _postID );
                         }
                 );
             }
@@ -162,6 +163,10 @@
             return $scope.showCommentsInPost === _post;
         }; // ~~~ vm.isSelectedFormAddNewComment ~~~
 
+        // удаление комментария
+        vm.deleteThisComment = function ( _comment, _post ) {
+            ngfitfire.commentDelete( _post.postID, _comment.commentID );
+        }; // ~~~ vm.deleteThisComment ~~~
 
 
     } // ~~~ allPostsMainPageCtrl ~~~
@@ -185,26 +190,35 @@
             vm.addNewPost = true;
         }; // vm.cancelPostFunc ~~~ скрыть форму
 
-        vm.submitNewPost = function () {
-            vm.newpost = extend( {},
-                                 vm.newpost,
-                                 {
-                                    'dateTime': Math.round(new Date().getTime() / 1000),   //10
-                                    'ownerId': $rootScope.currentUser.id,
-                                    'ownerName': $rootScope.currentUser.name
-                                 }
-            );
+        vm.submitNewPost = function ( _postCaption, _postText ) {
 
-            $log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
-            $log.debug('Добавлен новый пост', vm.newpost);
-            ngfitfire
-                .newPostAdd(
-                    vm.newpost,
-                    function () {
-                        vm.newpost = null;
-                        vm.addNewPost = true;
-                    }
-            );
+            $log.debug( 'vm.newpost', vm.newpost );
+
+            if ( typeof( _postCaption ) === 'undefined' || typeof( _postText ) === 'undefined' || vm.newpost === null ) {
+                $log.debug( 'вы пытаетесь добавить пустой пост! это невозможно');
+                toastr.warning('Вы пытаетесь добавить пустой пост, это невозможно', 'Внимание!' );
+                return false;
+            } else {
+                vm.newpost = extend( {},
+                                     vm.newpost,
+                                     {
+                                        'dateTime': Math.round(new Date().getTime() / 1000),   //10
+                                        'ownerId': $rootScope.currentUser.id,
+                                        'ownerName': $rootScope.currentUser.name
+                                     }
+                );
+
+                $log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
+                $log.debug('Добавлен новый пост', vm.newpost);
+                ngfitfire
+                    .newPostAdd(
+                        vm.newpost,
+                        function () {
+                            vm.newpost = null;
+                            vm.addNewPost = true;
+                        }
+                );
+            }
         }; // vm.submitNewPost ~~~ добавить новый пост
 
     } // ~~~ formPostAdd ~~~

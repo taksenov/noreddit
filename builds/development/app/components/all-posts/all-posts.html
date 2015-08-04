@@ -82,7 +82,8 @@
                                                 <button class="btn btn-success nr-btn-manage-group">
                                                     <i class="mdi-editor-mode-edit"></i>
                                                 </button>
-                                                <button class="btn btn-danger nr-btn-manage-group">
+                                                <button class="btn btn-danger nr-btn-manage-group"
+                                                        ng-click="vm.deleteThisComment( comment, post )">
                                                     <i class="mdi-content-clear"></i>
                                                 </button>
                                             </p>
@@ -122,7 +123,8 @@
                                         <div class="col-lg-10">
                                             <textarea class="form-control" rows="3"
                                                       id="inputPostComment"
-                                                      ng-model="vm.newComment.text">
+                                                      ng-model="vm.newComment.text"
+                                                      >
 
                                             </textarea>
                                         </div>
@@ -160,9 +162,9 @@
             <div class="row" ng-hide="vm.isSelectedFormAddNewComment( post )">
                 <div class="col-lg-12">
                     <div class="text-center gf-exercise-string__exercise-btns">
-                        <p>
+
+                        <span ng-if="!post.nocomments">
                             <button class="btn btn-primary"
-                                    ng-if="!post.nocomments"
                                     ng-hide="vm.isShowExistedComments( post )"
                                     ng-click="vm.showExistedComments( post )">
                                 Развернуть комментарии
@@ -173,13 +175,16 @@
                                     ng-click="vm.hideExistedComments()">
                                 Свернуть комментарии
                             </button>
+                        </span>
 
+                        <span>
                             <button class="btn btn-info"
                                     ng-click="vm.addNewCommentFunc( post )"
                                     ng-if="isSignedIn()" > <!-- показывать, только если пользователь вошел в систему -->
                                 Добавить свой комментарий
                             </button>
-                        </p>
+                        </span>
+
                     </div>
                 </div>
             </div>

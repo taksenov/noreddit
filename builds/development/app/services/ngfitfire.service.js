@@ -41,6 +41,11 @@
             return base;
         } // ~~~ extend function: https://gist.github.com/katowulf/6598238 ~~~
 
+        // проверка объекта на пустоту
+        function isEmpty(obj) {
+            return Object.keys(obj).length === 0;
+        } // isEmpty
+
         // получение списка всех постов
         self.getAllPosts = function(call_back){
             var allPostsArr = $firebaseArray( allPostsRef );
@@ -177,6 +182,16 @@
                     .then(
                         function ( _results ) {
 
+                            var onComplete = function(error) {
+                                if (error) {
+                                    $log.debug('commentAddCommentID: Synchronization failed');
+                                } else {
+                                    $log.debug('commentAddCommentID: Synchronization succeeded');
+                                }
+                            };
+
+                            allCommentsRef.child( _postID ).child( commentID ).update( { 'commentID': commentID }, onComplete );
+
                             // добаляем аватарку в объект с комментарием
                             if (  _newCommentData['ownerId'] !== undefined  ) {
                                 _newCommentData['avatar'] = _results[0][ _newCommentData['ownerId'] ]['avatar'];
@@ -186,7 +201,8 @@
                             for (var i = 0; i < $rootScope.allPosts.length; i++) {
                                 if ( $rootScope.allPosts[i]['postID'] === _postID ) {
                                     $rootScope.allPosts[i]['comments'][commentID] = _newCommentData;
-                                    //$rootScope.allPosts[i]['comments'] = extend( {}, $rootScope.allPosts[i]['comments'], $rootScope.allPosts[i]['comments'][commentID] );
+                                    $rootScope.allPosts[i]['comments'][commentID]['commentID'] = commentID;
+                                    $rootScope.allPosts[i]['nocomments'] = false;
                                     $log.debug('$rootScope.allPosts ' + i + ' =', $rootScope.allPosts[i] );
                                 }
                             } // поиск объекта с постом
@@ -218,10 +234,6 @@
         self.processingMainDataOfQALL = function ( results ) {
             var posts = [];
             var allPosts = {};
-
-            function isEmpty(obj) {
-                return Object.keys(obj).length === 0;
-            }
 
             for ( var i in results[1] ) {
                 for ( var i1 in results[1][i]  ) {
@@ -286,6 +298,38 @@
             return posts;
         };
         // ~~~ self.processingMainDataOfQALL ~~~
+
+        // удаление комментария
+        self.commentDelete = function ( _postID, _commentID ) {
+
+            var onComplete = function(error) {
+                if (error) {
+                    $log.debug('commentDelete: Synchronization failed');
+                    toastr.error('Что-то пошло не так, попробуйте в другой раз', 'Ошибка!', {
+                        timeOut: 1000
+                    });
+                } else {
+                    $log.debug('commentDelete: Synchronization succeeded');
+
+                    // поиск комментари в массиве объектов для удаления
+                    for (var i = 0; i < $rootScope.allPosts.length; i++) {
+                        if ( $rootScope.allPosts[i]['postID'] ===  _postID ) {
+                            delete $rootScope.allPosts[i]['comments'][_commentID];
+                            // есть комменты или нет
+                            isEmpty( $rootScope.allPosts[i]['comments'] ) ? $rootScope.allPosts[i]['nocomments'] = true : $rootScope.allPosts[i]['nocomments'] = false;
+                        }
+                    } // поиск объекта с постом
+
+                    toastr.info('Комментарий удален', 'Внимание!', {
+                        timeOut: 1000
+                    });
+                }
+            };
+
+            allCommentsRef.child( _postID ).child( _commentID ).remove( onComplete );
+
+        };
+        // ~~~ self.commentDelete ~~~
 
         // редактирование упражнения
         self.exerciseEdit = function ( _exerciseId, _exercise ) {
