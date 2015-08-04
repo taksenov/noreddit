@@ -118,6 +118,11 @@ gulp.task('libs', function() {
         .pipe(gulp.dest('./builds/dist/libs/a0-angular-storage/'));
     // -----
 
+    // Подключение angular-toastr
+    gulp.src(bc + 'angular-toastr/dist/**/*')
+        .pipe(gulp.dest('./builds/dist/libs/angular-toastr/'));
+    // -----
+
     gulp.src([bc+'angular/angular.js',
             bc+'angular-animate/angular-animate.js',
             bc+'angular-cookies/angular-cookies.js',

@@ -22,11 +22,13 @@
     formPostAddCtrl.$inject = [ '$scope', '$rootScope',
                                     'ngfitfire', '$modal',
                                     'AuthfireFactory', 'FIREBASE_URL',
-                                    '$log' ];
+                                    '$log', 'toastr' ];
     allPostsMainPageCtrl.$inject = [ '$scope', '$rootScope',
                                     'ngfitfire', '$modal',
                                     'AuthfireFactory', 'FIREBASE_URL',
-                                    '$log', '$firebaseObject', '$firebaseArray', '$q' ];
+                                    '$log', '$firebaseObject',
+                                    '$firebaseArray', '$q',
+                                    'toastr' ];
 
     // extend function: https://gist.github.com/katowulf/6598238
     function extend(base) {
@@ -47,7 +49,9 @@
     function allPostsMainPageCtrl( $scope, $rootScope,
                            ngfitfire, $modal,
                            AuthfireFactory, FIREBASE_URL,
-                           $log, $firebaseObject, $firebaseArray, $q ) {
+                           $log, $firebaseObject,
+                           $firebaseArray, $q,
+                           toastr ) {
 
         var vm = this;
 
@@ -108,6 +112,7 @@
         vm.addNewComment = function ( _commentText, _postID ) {
             if ( typeof(_commentText) === 'undefined' ) {
                 $log.debug( 'вы пытаетесь добавить пустой комментарий! это невозможно');
+                toastr.warning('Вы пытаетесь добавить пустой комментарий, это невозможно', 'Внимание!' );
                 return false;
             } else {
                 $log.debug( 'вы пытаетесь добавть новый комментарий с текстом =', _commentText, 'в пост-айди', _postID );
@@ -135,12 +140,11 @@
                         _postID,
                         function () {
                             vm.submittedNewComment = null;
+                            $scope.addNewCommentSelected = false;
+                            vm.newComment = null;
                         }
                 );
-
-
             }
-
         }; // ~~~ vm.addNewComment ~~~
 
         // показать комменты поста
@@ -165,7 +169,7 @@
     function formPostAddCtrl( $scope, $rootScope,
                            ngfitfire, $modal,
                            AuthfireFactory, FIREBASE_URL,
-                           $log ) {
+                           $log, toastr ) {
         var vm = this;
 
         vm.addNewPost = true;

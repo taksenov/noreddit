@@ -20,7 +20,8 @@
             'authfire.factory',
             'ui.router',
             'ui.bootstrap',
-            'angular-storage'
+            'angular-storage',
+            'toastr'
         ])
         .constant('FIREBASE_URL', 'https://ngnoreddit.firebaseio.com/')
         .config(ngGFConfig)

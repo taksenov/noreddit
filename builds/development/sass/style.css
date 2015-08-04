@@ -1,0 +1,382 @@
+@import url(../libs/bootstrap/css/bootstrap.css);
+@import url(../libs/bootstrap-material-design/css/roboto.css);
+@import url(../libs/bootstrap-material-design/css/material-fullpalette.css);
+@import url(../libs/bootstrap-material-design/css/ripples.css);
+@import url(../libs/angular-chart.js/angular-chart.css);
+@import url(../libs/angular-toastr/angular-toastr.css);
+@import url(../libs/whhg-font/css/whhg.css);
+.index-bg-image {
+  min-height: 100vh;
+  background-image: url("../img/nggirlsfit-index-bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646; }
+
+.nr-separator__post {
+  clear: both;
+  overflow: hidden;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
+
+.nr-post__userpic-img {
+  margin-top: 18px;
+  margin-left: 18px; }
+
+.nr-btn-manage-group {
+  padding: 4px 6px; }
+
+.nr-post-text__marg-top {
+  margin-bottom: 20px; }
+
+.gf-mainbar__info p {
+  font-size: 22px;
+  color: #ffffff;
+  text-shadow: #000000 1px 1px 2px, #000000 -1px -1px 2px, #000000 -1px 1px 2px, #000000 1px -1px 2px; }
+
+.gf-navbar__navigation {
+  margin-top: 8px; }
+  .gf-navbar__navigation li {
+    list-style-type: none; }
+  .gf-navbar__navigation ul {
+    margin-left: 0;
+    padding-left: 0; }
+
+.gf-navbar__navigation-xs {
+  margin: 0 auto;
+  margin-top: 30px;
+  border-color: orangered; }
+  .gf-navbar__navigation-xs li {
+    list-style-type: none; }
+  .gf-navbar__navigation-xs ul {
+    margin-left: 0;
+    padding-left: 0; }
+
+.gf-navbar__mainlist:before, .gf-navbar__mainlist:after {
+  content: " ";
+  display: table; }
+.gf-navbar__mainlist:after {
+  clear: both; }
+
+.gf-navbar__lists {
+  float: right;
+  margin-left: 20px; }
+
+.gf-navbar__lists-xs {
+  float: left;
+  margin-left: 8px; }
+
+.gf-navbar__link {
+  color: #ffffff;
+  text-shadow: #000000 1px 1px 2px, #000000 -1px -1px 2px, #000000 -1px 1px 2px, #000000 1px -1px 2px;
+  font-size: 16px;
+  text-decoration: underline; }
+  .gf-navbar__link:hover {
+    color: #03a9f4; }
+
+.gf-navbar {
+  margin-top: 20px; }
+
+.gf-logo:before, .gf-logo:after {
+  content: " ";
+  display: table; }
+.gf-logo:after {
+  clear: both; }
+
+.gf-logo__text {
+  color: #ffffff;
+  text-shadow: #000000 1px 1px 2px, #000000 -1px -1px 2px, #000000 -1px 1px 2px, #000000 1px -1px 2px;
+  font-size: 20px;
+  margin-top: 8px; }
+
+.gf-logo__image {
+  background-image: url("../img/nggirlsfit-index-logo-1.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 41px;
+  width: 40px;
+  float: left;
+  margin-right: 15px; }
+
+.gf-logo__link:hover {
+  text-decoration: none; }
+  .gf-logo__link:hover .gf-logo__image {
+    background-image: url("../img/nggirlsfit-index-logo-2.png"); }
+  .gf-logo__link:hover .gf-logo__text,
+  .gf-logo__link:hover .ng-logo__logo-text-xs {
+    color: #03a9f4; }
+  .gf-logo__link:hover .gf-logo__text-xs {
+    background-image: url("../img/nggirlsfit-index-logo-2.png"); }
+
+.gf-logo__text-xs {
+  color: #ffffff;
+  text-shadow: #000000 1px 1px 2px, #000000 -1px -1px 2px, #000000 -1px 1px 2px, #000000 1px -1px 2px;
+  background-image: url("../img/nggirlsfit-index-logo-1.png");
+  background-position: left top;
+  background-repeat: no-repeat;
+  height: 41px;
+  width: 195px;
+  margin-bottom: 23px; }
+
+.ng-logo__logo-text-xs {
+  font-size: 16px;
+  padding-top: 8px; }
+
+.gf-navbar__navmenu-center {
+  width: 181px;
+  margin: 0 auto; }
+
+.gf-navbar__logo-center {
+  width: 150px;
+  height: 50px;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-left: auto; }
+
+@media screen and (min-width: 1201px) {
+  .gf-mainbar {
+    margin-top: 19%; } }
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+  .gf-mainbar {
+    margin-top: 27%; } }
+@media screen and (min-width: 769px) and (max-width: 993px) {
+  .gf-mainbar {
+    margin-top: 27%; }
+
+  .gf-mainbar__info p {
+    font-size: 16px; } }
+@media screen and (max-width: 768px) {
+  .gf-mainbar {
+    margin-top: 27%; }
+
+  .gf-mainbar__info p {
+    font-size: 16px; }
+
+  .btn {
+    font-size: 10px;
+    padding: 6px; } }
+.gf-about-bg-image {
+  min-height: 100vh;
+  background-image: url("../img/nggirlsfit-about-bg-2.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646; }
+
+.gf-about__marg-bot-50px {
+  margin-bottom: 50px; }
+
+.gf-about-article__paragraph p,
+.gf-about-article__paragraph h2,
+.gf-about-article__header p,
+.gf-about-article__header h2 {
+  color: #000000;
+  word-wrap: break-word; }
+
+.gf-navigation {
+  margin-bottom: 60px;
+  height: 60px;
+  background-color: #009688; }
+
+.gf-left-navigation {
+  position: relative; }
+
+.gf-left-navigation__userpic {
+  position: absolute;
+  top: -35px;
+  left: 15px;
+  box-shadow: 0 0 5px #bbbbbb; }
+  .gf-left-navigation__userpic img {
+    width: 90px;
+    height: 90px; }
+
+.gf-left-navigation__border {
+  box-shadow: 0 0 5px #bbbbbb; }
+
+.gf-left-navigation__username {
+  font-size: 20px;
+  padding-left: 120px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  word-wrap: break-word; }
+
+.gf-left-navigation__achivments:before, .gf-left-navigation__achivments:after {
+  content: " ";
+  display: table; }
+.gf-left-navigation__achivments:after {
+  clear: both; }
+
+.gf-left-navigation__list li {
+  float: left;
+  margin-left: 1em; }
+
+.gf-left-navigation__achivments_icons {
+  font-size: 20pt; }
+
+.gf-left-navigation__achivments_center {
+  display: inline-block; }
+
+.gf-workout-navigation__pos-rel {
+  position: relative; }
+
+.gf-workout-navigation__image-lg-screens {
+  position: absolute;
+  top: -239px;
+  margin-right: 15px; }
+
+.gf-workout-navigation__btnexit-lg-screens {
+  position: absolute;
+  top: 107px;
+  width: 362px; }
+
+.gf-left-navigation__profile-achivments_icons {
+  font-size: 40pt; }
+
+@media screen and (max-width: 768px) {
+  .gf-profile__wrap-long-words {
+    word-wrap: break-word;
+    font-size: 10px; } }
+.gf-left-navigation__list-link a {
+  width: 100%; }
+
+.gf-exercises__filter-btns {
+  margin-bottom: 30px; }
+
+.gf-exercises__view-btn {
+  padding: 8px 10px;
+  margin: 0 1px;
+  cursor: pointer; }
+
+.gf-exercises__filter-xs {
+  margin-top: 30px;
+  margin-bottom: 30px; }
+
+.img-exercise {
+  width: 100%; }
+
+.gf-exercise-string__image {
+  width: 40px;
+  margin: 0 auto;
+  padding-top: 4px;
+  padding-bottom: 6px; }
+
+.gf-exercise-string__text h3 {
+  margin-top: 10px; }
+
+.gf-exercise-string__add-link h3,
+.gf-exercise-blocks__add-link h3 {
+  color: #000000; }
+.gf-exercise-string__add-link:hover h3,
+.gf-exercise-blocks__add-link:hover h3 {
+  text-decoration: underline;
+  color: #009688; }
+
+.gf-panel-material-orange-50 {
+  background-color: #fff3e0; }
+
+.gf-exercise-string__exercise-text {
+  margin-left: 20px; }
+
+.gf-exercise-string__exercise-btns {
+  margin-top: 6px; }
+
+.gf-panel-material-grey-500 {
+  background-color: #FAFAFA; }
+
+.gf-red-asterics {
+  color: orangered; }
+
+.gf-warning-message__borders {
+  border-bottom: 1px solid #b8b8b8;
+  border-top: 1px solid #b8b8b8; }
+
+.gf-exercise-caption__word-wrap {
+  word-wrap: break-word; }
+
+.gf-statistics__active-tab {
+  background-color: #199F93 !important; }
+
+.gf-statistics__nav-tabs {
+  background-color: transparent; }
+
+.gf-statistics__not-active-tab {
+  background-color: rgba(0, 135, 120, 0.36); }
+
+.gf-upper-img {
+  background: url("../img/nggirlsfit-workout-bg.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  min-height: 240px;
+  max-height: 353px; }
+
+.gf-workout__btnicon {
+  margin-right: 10px; }
+
+.gf-contacts-bg-image {
+  min-height: 100vh;
+  background-image: url("../img/nggirlsfit-contacts-bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646; }
+
+.gf-contacts__site-address {
+  color: #ffffff;
+  text-shadow: #000000 1px 1px 2px, #000000 -1px -1px 2px, #000000 -1px 1px 2px, #000000 1px -1px 2px;
+  font-size: 36px;
+  text-decoration: underline; }
+  .gf-contacts__site-address:hover {
+    color: #d77101; }
+
+.gf-404__header p {
+  font-size: 52px; }
+
+.gf-404-bg-image {
+  min-height: 100vh;
+  background-image: url("../img/nggirlsfit-404-bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646; }
+
+.gf-auth-modal__marg-bottom_25px {
+  margin-bottom: 25px; }
+
+.gf-auth-modal__btn-small-size {
+  padding-left: 12px;
+  padding-right: 12px; }
+
+.gf-auth-modal__btn-color_facebook:hover {
+  background-color: #0d47a1 !important;
+  color: #ffffff !important; }
+
+.gf-auth-modal__btn-color_googleplus:hover {
+  background-color: #e53935 !important;
+  color: #ffffff !important; }
+
+.gf-auth-modal__btn-color_twitter:hover {
+  background-color: #80d8ff !important;
+  color: #ffffff !important; }
+
+.gf-auth-modal__btn-color_vk:hover {
+  background-color: #57799E !important;
+  color: #ffffff !important; }
+
+.gf-auth-modal__manual-singn-in_buttons {
+  display: inline-block; }
+
+body {
+  width: 100%;
+  height: 100%;
+  font-size: 16px; }
+
+/*# sourceMappingURL=style.css.map */

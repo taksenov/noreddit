@@ -11,11 +11,13 @@
 
     ngfitfire.$inject = [ 'FIREBASE_URL', '$firebaseObject',
                           '$firebaseArray', '$log',
-                          '$rootScope', '$q' ];
+                          '$rootScope', '$q',
+                          'toastr' ];
 
     function ngfitfire( FIREBASE_URL, $firebaseObject,
                         $firebaseArray, $log,
-                        $rootScope, $q ){
+                        $rootScope, $q,
+                        toastr ){
 
         var self = this;
 
@@ -131,6 +133,7 @@
             var onComplete = function(error) {
                 if (error) {
                     $log.debug('addNewPost: Synchronization failed');
+                    toastr.error('Попробуйте добавить новый пост позднее', 'Ошибка!');
                 } else {
                     $log.debug('addNewPost: Synchronization succeeded');
 
@@ -147,6 +150,7 @@
                             $log.debug( 'данные нового добавленного поста $rootScope.allPosts2 =', $rootScope.allPosts2 );
                             $log.debug( 'данные нового добавленного поста _results =', _results );
                             _ifAllSuccess();
+                            toastr.success('Добавлен новый пост', 'Успех!');
                         }
                     );
 
@@ -158,19 +162,50 @@
         // ~~~ self.newPostAdd ~~~
 
         // добавление нового комментария
-        self.newCommentAdd = function ( _newCommentData, _postID ) {
+        self.newCommentAdd = function ( _newCommentData, _postID, _ifAllSuccess ) {
             var onComplete = function(error) {
                 if (error) {
                     $log.debug('addNewComment: Synchronization failed');
+                    toastr.error('Попробуйте добавить новый комментарий позднее', 'Ошибка!');
                 } else {
+
                     $log.debug('addNewComment: Synchronization succeeded');
+                    var commentID = newCommentRef.key();
+
+                    $q.all( [
+                            self.getAvatars() ] )
+                    .then(
+                        function ( _results ) {
+
+                            // добаляем аватарку в объект с комментарием
+                            if (  _newCommentData['ownerId'] !== undefined  ) {
+                                _newCommentData['avatar'] = _results[0][ _newCommentData['ownerId'] ]['avatar'];
+                            } // добаляем аватарку в объект с комментарием
+
+                            // поиск объекта с постом в который добавлен комментарий в массиве объектов
+                            for (var i = 0; i < $rootScope.allPosts.length; i++) {
+                                if ( $rootScope.allPosts[i]['postID'] === _postID ) {
+                                    $rootScope.allPosts[i]['comments'][commentID] = _newCommentData;
+                                    //$rootScope.allPosts[i]['comments'] = extend( {}, $rootScope.allPosts[i]['comments'], $rootScope.allPosts[i]['comments'][commentID] );
+                                    $log.debug('$rootScope.allPosts ' + i + ' =', $rootScope.allPosts[i] );
+                                }
+                            } // поиск объекта с постом
+
+                            _ifAllSuccess();
+                            toastr.success('Добавлен новый комментарий', 'Успех!', {
+                                timeOut: 1000
+                            });
+
+                        }
+                    );
+
                 }
             };
 
-            allCommentsRef.child( _postID ).push( _newCommentData, onComplete );
+            var newCommentRef = allCommentsRef.child( _postID ).push( _newCommentData, onComplete );
 
             $log.debug(
-                'добавляемы данные',
+                'добавляемые данные',
                 _newCommentData,
                 'в пост =',
                 _postID
