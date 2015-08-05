@@ -17,13 +17,14 @@
 
         <!-- открытая часть сайта -->
         <section>
+            <!-- навигация -->
+            <div ui-view="navbarPublick">
+            </div>
+            <!-- навигация -->
+        </section>
+
+        <section>
             <div class="container">
-
-                <!-- навигация -->
-                <div ui-view="navbarPublick">
-                </div>
-                <!-- навигация -->
-
                 <!-- контент -->
                 <div>
 
@@ -38,31 +39,33 @@
 
                     </form>
 
-                    <!-- todo сделать смену года в зависимости от даты, забивать год в БД -->
-                    <!-- footer -->
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="panel gf-panel-material-orange-50">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="text-left gf-exercise-string__exercise-text gf-exercise-caption__word-wrap">
-                                            <p class="text__h3 text-center">
-                                                &copy;2015  ngForum. Все права защищены.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- footer -->
-
                 </div>
                 <!-- контент -->
 
             </div>
         </section>
         <!-- открытая часть сайта -->
+
+        <section class="footer">
+            <!-- todo сделать смену года в зависимости от даты, забивать год в БД -->
+            <!-- footer -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="text-left gf-exercise-string__exercise-text gf-exercise-caption__word-wrap">
+                                    <p class="text__h3 text-center">
+                                        &copy;2015 ngForum. Все права защищены.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer -->
+        </section>
 
         <!-- точка входа для ангуляра -->
 

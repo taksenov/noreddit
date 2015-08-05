@@ -4,7 +4,8 @@ var gulp = require('gulp'),
     webserver = require('gulp-webserver'),
     sass = require('gulp-sass'),
     concat = require('gulp-concat'),
-    csso = require('gulp-csso');
+    csso = require('gulp-csso'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var bc = './bower_components/';
 
@@ -28,7 +29,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('sass', function () {
-  gulp.src('builds/development/sass/**/*')
+  gulp.src('builds/development/sass/**/*.scss')
       .pipe(sass())
       .pipe(concat('style.min.css'))
       .pipe(csso())
