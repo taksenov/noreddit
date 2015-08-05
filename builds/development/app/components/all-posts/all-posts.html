@@ -33,14 +33,16 @@
                     <div class="text-right gf-exercise-string__exercise-btns"
                          ng-if="isSignedIn() && post.ownerId === currentUser.id">
                         <p>
+                            <!-- кнопки удаления-редактирования поста -->
                             <button class="btn btn-success nr-btn-manage-group"
-                            ng-click="vm.postEdit( post.elementIndex, post.postID )">
+                            ng-click="vm.postEdit( post.elementIndex, post )">
                                 <i class="mdi-editor-mode-edit"></i>
                             </button>
                             <button class="btn btn-danger nr-btn-manage-group"
-                            ng-click="vm.postDelete( post.elementIndex )">
+                            ng-click="vm.postDelete( post.elementIndex, post.postID )">
                                 <i class="mdi-content-clear"></i>
                             </button>
+                            <!-- кнопки удаления-редактирования поста -->
                         </p>
                     </div>
                 </div>
@@ -79,13 +81,16 @@
                                         <div class="text-right gf-exercise-string__exercise-btns"
                                              ng-show="isSignedIn() && comment.ownerId === currentUser.id">
                                             <p>
-                                                <button class="btn btn-success nr-btn-manage-group">
+                                                <!-- кнопки удаления-редактирования комментария -->
+                                                <button class="btn btn-success nr-btn-manage-group"
+                                                        ng-click="vm.commentEdit( comment, post )">
                                                     <i class="mdi-editor-mode-edit"></i>
                                                 </button>
                                                 <button class="btn btn-danger nr-btn-manage-group"
                                                         ng-click="vm.deleteThisComment( comment, post )">
                                                     <i class="mdi-content-clear"></i>
                                                 </button>
+                                                <!-- кнопки удаления-редактирования комментария -->
                                             </p>
                                         </div>
                                     </div>

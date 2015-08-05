@@ -17,6 +17,7 @@
             'ngNoReddit.error404',
             'ngNoReddit.firebase.service',
             'ngNoReddit.auth-modal',
+            'ngNoReddit.edit-modal',
             'authfire.factory',
             'ui.router',
             'ui.bootstrap',

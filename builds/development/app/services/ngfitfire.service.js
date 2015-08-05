@@ -151,9 +151,9 @@
                             $rootScope.allPosts2 = self.processingNewPostDataOfQALL( _results );
                             $rootScope.allPosts[$rootScope.allPosts.length] = $rootScope.allPosts2;
 
-                            $log.debug( 'данные нового добавленного поста $rootScope.allPosts =', $rootScope.allPosts );
-                            $log.debug( 'данные нового добавленного поста $rootScope.allPosts2 =', $rootScope.allPosts2 );
-                            $log.debug( 'данные нового добавленного поста _results =', _results );
+                            //$log.debug( 'данные нового добавленного поста $rootScope.allPosts =', $rootScope.allPosts );
+                            //$log.debug( 'данные нового добавленного поста $rootScope.allPosts2 =', $rootScope.allPosts2 );
+                            //$log.debug( 'данные нового добавленного поста _results =', _results );
                             _ifAllSuccess();
                             toastr.success('Добавлен новый пост', 'Успех!');
                         }
@@ -331,34 +331,84 @@
         };
         // ~~~ self.commentDelete ~~~
 
-        // редактирование упражнения
-        self.exerciseEdit = function ( _exerciseId, _exercise ) {
+        // удаление поста
+        self.postDelete = function ( _postID, _elementIndex ) {
+
             var onComplete = function(error) {
                 if (error) {
-                    $log.debug('exerciseEdit Synchronization failed');
+                    $log.debug('commentDelete: Synchronization failed');
+                    toastr.error('Что-то пошло не так, попробуйте в другой раз', 'Ошибка!', {
+                        timeOut: 1000
+                    });
                 } else {
-                    $log.debug('exerciseEdit Synchronization succeeded');
+                    $log.debug('commentDelete: Synchronization succeeded');
+
+                    allCommentsRef.child( _postID ).remove();
+                    $rootScope.allPosts.splice( _elementIndex, 1 );
+
+                    $log.debug('commentDelete: $rootScope.allPosts', $rootScope.allPosts);
+
+                    toastr.info('Ваш пост удален', 'Внимание!', {
+                        timeOut: 1000
+                    });
                 }
             };
 
-            // проверка картинки, если из вне прийдет undefined или '' то меняется на дефолтную картинку
-            if ( typeof( _exercise.img ) === 'undefined' ||
-                 _exercise.img  === '' ) {
-                _exercise.img = '../img/ngNoReddit-exercises-001.jpg'
-            }
+            allPostsRef.child( _postID ).remove( onComplete );
 
-            exercisesRef.child( _exerciseId ).update( _exercise, onComplete );
         };
-        // ~~~ self.exerciseEdit ~~~
+        // ~~~ self.postDelete ~~~
 
-        // удаление упражнения
-        self.exerciseDelete = function ( _exercise ) {
-            var urlOfExercise = exercisesRef + '/' + _exercise.$id,
-                ref = new Firebase(urlOfExercise);
+        // редактирование поста
+        self.postEdit = function ( _postId, _postCaption, _postText ) {
+            var onComplete = function(error) {
+                if (error) {
+                    $log.debug('exerciseEdit Synchronization failed');
+                    toastr.error('Что-то пошло не так, попробуйте в другой раз', 'Ошибка!', {
+                        timeOut: 3000
+                    });
+                } else {
+                    $log.debug('exerciseEdit Synchronization succeeded');
+                    toastr.info('Пост отредактирован', 'Внимание!', {
+                        timeOut: 2000
+                    });
+                    $rootScope.modalInstance.close();
+                    $rootScope.modalInstance = null;
+                }
+            };
 
-            return ref.remove();
+            allPostsRef.child( _postId ).update(
+                {
+                    postCaption: _postCaption,
+                    postText: _postText
+                }, onComplete );
         };
-        // ~~~ self.exerciseDelete ~~~
+        // ~~~ self.postEdit ~~~
+
+        // редактирование комментария
+        self.commentEdit = function ( _postId, _commentID, _commentText ) {
+            var onComplete = function(error) {
+                if (error) {
+                    $log.debug('exerciseEdit Synchronization failed');
+                    toastr.error('Что-то пошло не так, попробуйте в другой раз', 'Ошибка!', {
+                        timeOut: 3000
+                    });
+                } else {
+                    $log.debug('exerciseEdit Synchronization succeeded');
+                    toastr.info('Комментарий отредактирован', 'Внимание!', {
+                        timeOut: 2000
+                    });
+                    $rootScope.modalInstance.close();
+                    $rootScope.modalInstance = null;
+                }
+            };
+
+            allCommentsRef.child( _postId ).child( _commentID ).update(
+                {
+                    commentText: _commentText
+                }, onComplete );
+        };
+        // ~~~ self.postEdit ~~~
 
         // редактирование пользователя
         self.accountProfileEdit = function ( _userid, _userData ) {

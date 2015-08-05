@@ -185,7 +185,7 @@
 
                 user.$loaded().then( function (  ) {
                     var currentUser = {
-                        id: user.$id,
+                        id: user.$id.replace("simplelogin:", ""),
                         email: user.email,
                         name: user.name,
                         weight: user.weight,

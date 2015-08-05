@@ -72,21 +72,70 @@
                 $rootScope.allPosts = ngfitfire.processingMainDataOfQALL( results );
 
                 $log.debug( '$rootScope.allPosts =', $rootScope.allPosts );
-                $log.debug( 'данные нового добавленного поста typeof(results) =', typeof(results) );
-                $log.debug( 'данные нового добавленного поста results =', results );
+                //$log.debug( 'данные нового добавленного поста typeof(results) =', typeof(results) );
+                //$log.debug( 'данные нового добавленного поста results =', results );
                 //$log.debug( 'vm.allPosts =', vm.allPosts );
                 //$log.debug( 'results[0] =', results[0] );
                 //$log.debug( '$rootScope.currentUser =', $rootScope.currentUser );
             }
         ); // $q.all
 
-        vm.postEdit = function ( _element1, _element2 ) {
-            $log.debug( 'Редактировать, выбранный пост имеет индекс =', _element1 );
-            $log.debug( 'Редактировать, postID =', _element2 );
+        vm.commentEdit = function ( _comment, _post ) {
+            $log.debug( 'Редактировать, выбранный коммент _comment =', _comment );
+            $log.debug( 'Редактировать, post =', _post );
+
+            ////e.preventDefault();
+            vm.modalCaption = 'Редактировать комментарий';
+            $modal.open(
+                {
+                    animation: vm.animationsEnabled,
+                    templateUrl: '/app/components/edit-modal/comment-edit-modal.html',
+                    controller: 'ModalCommentEditCtrl',
+                    resolve: {
+                        modalCaption: function () {
+                            return vm.modalCaption;
+                        },
+                        commentData: function () {
+                            return _comment;
+                        },
+                        postData: function () {
+                            return _post;
+                        }
+                    }
+                }
+            ); // ~~~ $modal.open ~~~
+
+        }; // ~~~ vm.commentEdit ~~~
+
+        vm.postEdit = function ( _elementIndex, _post ) {
+            $log.debug( 'Редактировать, выбранный пост имеет индекс =', _elementIndex );
+            $log.debug( 'Редактировать, _post =', _post );
+
+            //e.preventDefault();
+            vm.modalCaption = 'Редактировать пост';
+            $modal.open(
+                {
+                    animation: vm.animationsEnabled,
+                    templateUrl: '/app/components/edit-modal/post-edit-modal.html',
+                    controller: 'ModalPostEditCtrl',
+                    resolve: {
+                        modalCaption: function () {
+                            return vm.modalCaption;
+                        },
+                        postData: function () {
+                            return _post;
+                        }
+                    }
+                }
+            ); // ~~~ $modal.open ~~~
+
         }; // ~~~ vm.postEdit ~~~
 
-        vm.postDelete = function (element) {
-            $log.debug( 'удалить, выбранный пост имеет индекс =', element );
+        vm.postDelete = function ( _element, _postID ) {
+            $log.debug( 'удалить, выбранный пост имеет индекс =', _element );
+
+            ngfitfire.postDelete( _postID, _element );
+
         }; // ~~~ vm.postDelete ~~~
 
         // показать форму
