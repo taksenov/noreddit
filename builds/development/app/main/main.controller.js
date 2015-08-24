@@ -55,12 +55,11 @@
 
         var vm = this;
 
-        //ngfitfire.getAllPosts( function (_data) {
-        //    vm.allPosts = _data;
-        //
-        //    $log.debug( '42 --- vm.allPosts =', vm.allPosts );
-        //
-        //} ); // ~~~ getAllPosts ~~~
+        $rootScope.allPosts = {};
+        // for easy access
+        vm.allPostsData = $rootScope.allPosts;
+        // boolean flag to indicate api call success
+        vm.allPostsData.dataLoaded = false;
 
         // запрос всех постов для главной страницы
         $q.all( [
@@ -70,6 +69,7 @@
         .then(
             function (results) {
                 $rootScope.allPosts = ngfitfire.processingMainDataOfQALL( results );
+                vm.allPostsData.dataLoaded = true;
 
                 $log.debug( '$rootScope.allPosts =', $rootScope.allPosts );
                 //$log.debug( 'данные нового добавленного поста typeof(results) =', typeof(results) );

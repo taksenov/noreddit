@@ -1,7 +1,10 @@
     <!-- пост со свернутыми комментариями -->
-    <!--<div class="col-lg-12" ng-repeat="post in vm.allPosts">-->
-    <div class="col-lg-12" ng-repeat="post in allPosts | orderBy : post.dateTime : true">
-        <!-- $scope.allUsers -->
+
+    <div ng-hide="vm.allPostsData.dataLoaded" class="gf-preloader">
+
+    </div>
+
+    <div ng-show="vm.allPostsData.dataLoaded" class="col-lg-12" ng-repeat="post in allPosts | orderBy : post.dateTime : true">
 
         <div class="panel gf-panel-material-orange-50">
             <div class="row">
